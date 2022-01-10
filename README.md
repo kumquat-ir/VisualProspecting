@@ -1,11 +1,11 @@
 # GregTech5U Add-On: VisualProspecting
 
 [![](https://jitpack.io/v/SinTh0r4s/VisualProspecting.svg)](https://jitpack.io/#SinTh0r4s/VisualProspecting)
-[![](https://github.com/SinTh0r4s/VisualProspecting/actions/workflows/gradle.yml/badge.svg)](https://github.com/SinTh0r4s/VisualProspecting/actions/workflows/gradle.yml)
+[![Build and test](https://github.com/SinTh0r4s/VisualProspecting/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/SinTh0r4s/VisualProspecting/actions/workflows/build-and-test.yml)
 
 ### For Minecraft 1.7.10
 
-This mod is intended for player convenience, but may also be used as API, since it provides the location of all GT ore veins in a cache. VisualProspecting tracks all GT Ore Veins a player has found and visualizes them in JourneyMap and/or XaeroWorldMap (optional, if installed). It also visualizes tracked Thaumcraft aura nodes if TCNodeTracker if installed.
+This mod is intended for player convenience, but may also be used as API, since it provides the location of all GT ore veins in a cache. VisualProspecting tracks all GT Ore Veins a player has found and visualizes them in JourneyMap and/or XaeroWorldMap (optional, if installed). It also visualizes tracked Thaumcraft aura nodes if TCNodeTracker if installed. VoxelMap will add waypoints for prospected ore veins and fluids.
 
 VisualProspecting tracks all ores that a player interacted with, by right or by left click. It also integrates prospecting data from GTs _Advanced Seismic Prospector_, although only books that are created after this mod was added will provide integration.
 You may share your findings with other players by crafting a _Prospector's Log_.
@@ -52,6 +52,7 @@ You may use JourneyMap's Actions Menu to achieve this or type `/visualprospectin
 
 Does VisualProspecting run with other maps? - I runs just fine, but it has no visualization or GUI integration. If you like to add integration into other maps yourself, feel free to contact me or open a Pull Request.
  - [TheLastKumquat](https://github.com/kumquat-ir) integrated XaeroWorldMap and XaeroMiniMap
+ - [glowredman](https://github.com/glowredman) integrated VoxelMap
 
 ### Dependencies
 
@@ -65,7 +66,7 @@ Does VisualProspecting run with other maps? - I runs just fine, but it has no vi
     - Automatically shipped. No manual handling is required.
 #### Optional Mods:
  - [JourneyMap](https://www.curseforge.com/minecraft/mc-mods/journeymap/files/2367915): Visualizes prospected ore veins, oil fields and thaumcraft nodes on custom overlay, that can be toggled on and off. Visualizes active ore veins and thaumcraft nodes as waypoints.
-    - Injected classes: [_Fullscreen_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/FullscreenMixin.java), [_FullscreenActions_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/FullscreenActionsMixin.java), [_RenderWaypointBeacon_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/RenderWaypointBeaconMixin.java), [_WaypointManager_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/WaypointManagerMixin.java)
+    - Injected classes: [_Fullscreen_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/FullscreenMixin.java), [_FullscreenActions_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/FullscreenActionsMixin.java), [_RenderWaypointBeacon_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/RenderWaypointBeaconMixin.java), [_WaypointManager_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/WaypointManagerMixin.java), [_MiniMap_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/journeymap/MiniMapMixin.java)
  - [XaeroWorldMap](https://www.curseforge.com/minecraft/mc-mods/xaeros-world-map): Visualizes prospected ore veins, oil fields and thaumcraft nodes on custom overlay, that can be toggled on and off.
     - Injected class: [_GuiMap_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/xaerosworldmap/GuiMapMixin.java)
  - [XaeroMiniMap](https://www.curseforge.com/minecraft/mc-mods/xaeros-minimap): Visualizes active ore veins and thaumcraft nodes as waypoints.
@@ -77,6 +78,9 @@ Does VisualProspecting run with other maps? - I runs just fine, but it has no vi
     - Injected class: [_GT_Worldgenerator_Space_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/galacticgreg/GT_Worldgenerator_SpaceMixin.java)
  - [Bartworks](https://github.com/GTNewHorizons/bartworks): Injects a notification call into ore vein generation.
     - Injected class: [_BW_WordGenerator.WorldGenContainer_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/bartworks/WorldGenContainerMixin.java)
+ - [IFU](https://github.com/GTNewHorizons/IFU): Injects a notification call to add found ore veins by the ore finder wand.
+    - Injected class: [_ItemOreFinderTool_](https://github.com/SinTh0r4s/VisualProspecting/blob/master/src/main/java/com/sinthoras/visualprospecting/mixins/ifu/ItemOreFinderToolMixin.java)
+ - [VoxelMap](https://www.curseforge.com/minecraft/mc-mods/voxelmap/files/2462146): Automatically adds waypoints for prospected ore veins and fluids.
 
 ### Add Visual Prospecting as API
 
