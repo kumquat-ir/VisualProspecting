@@ -8,8 +8,8 @@ import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 
 public abstract class InteractableLayerRenderer extends LayerRenderer {
-    private double mouseXForRender;
-    private double mouseYForRender;
+    private double mouseX;
+    private double mouseY;
     protected WaypointProviderManager manager;
     protected InteractableRenderStep hovered;
 
@@ -23,12 +23,12 @@ public abstract class InteractableLayerRenderer extends LayerRenderer {
     protected abstract List<? extends InteractableRenderStep> generateRenderSteps(
             List<? extends ILocationProvider> visibleElements);
 
-    public void updateHovered(double mouseX, double mouseY, double cameraX, double cameraZ, double scale) {
-        mouseXForRender = mouseX - cameraX;
-        mouseYForRender = mouseY - cameraZ;
+    public void updateHovered(double mouseX, double mouseY, double scale) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
         for (RenderStep step : renderStepsReversed) {
             if (step instanceof InteractableRenderStep
-                    && ((InteractableRenderStep) step).isMouseOver(mouseXForRender, mouseYForRender, scale)) {
+                    && ((InteractableRenderStep) step).isMouseOver(mouseX, mouseY, scale)) {
                 hovered = (InteractableRenderStep) step;
                 return;
             }
@@ -38,7 +38,7 @@ public abstract class InteractableLayerRenderer extends LayerRenderer {
 
     public void drawTooltip(GuiScreen gui, double scale, int scaleAdj) {
         if (hovered != null) {
-            hovered.drawTooltip(gui, mouseXForRender, mouseYForRender, scale, scaleAdj);
+            hovered.drawTooltip(gui, mouseX, mouseY, scale, scaleAdj);
         }
     }
 
