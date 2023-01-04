@@ -1,11 +1,12 @@
 package com.sinthoras.visualprospecting.integration.model;
 
-import static com.sinthoras.visualprospecting.Utils.isTCNodeTrackerInstalled;
+import static com.sinthoras.visualprospecting.Utils.*;
 
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.integration.model.buttons.*;
 import com.sinthoras.visualprospecting.integration.model.layers.*;
 import com.sinthoras.visualprospecting.integration.tcnodetracker.NTNodeTrackerWaypointManager;
+import com.sinthoras.visualprospecting.integration.xaerominimap.XaeroMiniMapState;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,11 @@ public class MapState {
         if (Config.enableDeveloperOverlays) {
             buttons.add(DirtyChunkButtonManager.instance);
             layers.add(DirtyChunkLayerManager.instance);
+        }
+
+        if (isXaerosMinimapInstalled()) {
+            // need to classload XaeroMiniMapState in order for its waypoint manager to get registered
+            XaeroMiniMapState.instance.toString();
         }
     }
 }

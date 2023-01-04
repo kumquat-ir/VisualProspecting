@@ -23,7 +23,6 @@ import xaero.common.minimap.MinimapProcessor;
 import xaero.common.minimap.render.MinimapRenderer;
 import xaero.common.settings.ModSettings;
 
-@SuppressWarnings("UnusedMixin")
 @Mixin(value = MinimapRenderer.class, remap = false)
 public class MinimapRendererMixin {
 

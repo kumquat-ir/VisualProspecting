@@ -12,7 +12,7 @@ import com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps.Ren
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.Entity;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +29,6 @@ import xaero.map.gui.GuiMap;
 import xaero.map.gui.ScreenBase;
 import xaero.map.misc.Misc;
 
-@SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference", "UnusedMixin"})
 @Mixin(value = GuiMap.class, remap = false)
 public abstract class GuiMapMixin extends ScreenBase {
 
@@ -63,7 +62,7 @@ public abstract class GuiMapMixin extends ScreenBase {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void injectConstruct(
-            GuiScreen parent, GuiScreen escape, MapProcessor mapProcessor, EntityPlayer player, CallbackInfo ci) {
+            GuiScreen parent, GuiScreen escape, MapProcessor mapProcessor, Entity player, CallbackInfo ci) {
         MapState.instance.layers.forEach(LayerManager::onOpenMap);
     }
 
@@ -74,34 +73,8 @@ public abstract class GuiMapMixin extends ScreenBase {
             method = "func_73863_a",
             at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glPushMatrix()V", ordinal = 1),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    // why is this method so long. this isnt even 1/5 of the way through and look at how many locals there are already
     private void injectPreRender(
-            int scaledMouseX,
-            int scaledMouseY,
-            float partialTicks,
-            CallbackInfo ci,
-            Minecraft mc,
-            long startTime,
-            long passed,
-            double passedScrolls,
-            int direction,
-            Object var12,
-            boolean mapLoaded,
-            boolean noWorldMapEffect,
-            int mouseXPos,
-            int mouseYPos,
-            double scaleMultiplier,
-            double oldMousePosZ,
-            double preScale,
-            double fboScale,
-            double secondaryScale,
-            double mousePosX,
-            double mousePosZ,
-            int mouseFromCentreX,
-            int mouseFromCentreY,
-            double oldMousePosX,
-            int textureLevel,
-            int leveledRegionShift) {
+            int scaledMouseX, int scaledMouseY, float partialTicks, CallbackInfo ci, Minecraft mc) {
         // snap the camera to whole pixel values. works around a rendering issue but causes another when framerate is
         // uncapped
         if (mc.gameSettings.limitFramerate < 255 || mc.gameSettings.enableVsync) {
@@ -109,9 +82,13 @@ public abstract class GuiMapMixin extends ScreenBase {
             cameraZ = Math.round(cameraZ * scale) / scale;
         }
 
+        // there's some nice local variables for exactly this but the local table for this function is hell
+        double mousePosX = (double) ((int) Misc.getMouseX(mc) - mc.displayWidth / 2) / this.scale;
+        double mousePosZ = (double) ((int) Misc.getMouseY(mc) - mc.displayHeight / 2) / this.scale;
+
         for (LayerRenderer layer : XaeroWorldMapState.instance.renderers) {
             if (layer instanceof InteractableLayerRenderer) {
-                ((InteractableLayerRenderer) layer).updateHovered(mousePosX, mousePosZ, cameraX, cameraZ, scale);
+                ((InteractableLayerRenderer) layer).updateHovered(mousePosX, mousePosZ, scale);
             }
         }
     }

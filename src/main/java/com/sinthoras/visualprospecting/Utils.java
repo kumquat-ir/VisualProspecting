@@ -44,6 +44,10 @@ public class Utils {
         return Loader.isModLoaded("XaeroWorldMap");
     }
 
+    public static boolean isXaerosMinimapInstalled() {
+        return Loader.isModLoaded("XaeroMinimap");
+    }
+
     public static boolean isVoxelMapInstalled() {
         try {
             // If a LiteLoader mod is present cannot be checked by calling Loader#isModLoaded.
