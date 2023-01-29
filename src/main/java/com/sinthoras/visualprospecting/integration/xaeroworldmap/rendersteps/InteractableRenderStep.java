@@ -1,7 +1,8 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps;
 
-import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
 import net.minecraft.client.gui.GuiScreen;
+
+import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
 
 public interface InteractableRenderStep extends RenderStep {
 

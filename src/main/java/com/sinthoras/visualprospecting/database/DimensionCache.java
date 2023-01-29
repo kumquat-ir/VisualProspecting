@@ -1,18 +1,20 @@
 package com.sinthoras.visualprospecting.database;
 
-import com.sinthoras.visualprospecting.Utils;
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.database.veintypes.VeinType;
-import com.sinthoras.visualprospecting.database.veintypes.VeinTypeCaching;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+
+import com.sinthoras.visualprospecting.Utils;
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.database.veintypes.VeinType;
+import com.sinthoras.visualprospecting.database.veintypes.VeinTypeCaching;
 
 public class DimensionCache {
 
@@ -34,8 +36,8 @@ public class DimensionCache {
 
     public ByteBuffer saveOreChunks() {
         if (changedOrNewOreChunks.isEmpty() == false) {
-            final ByteBuffer byteBuffer =
-                    ByteBuffer.allocate(changedOrNewOreChunks.size() * (2 * Integer.BYTES + Short.BYTES));
+            final ByteBuffer byteBuffer = ByteBuffer
+                    .allocate(changedOrNewOreChunks.size() * (2 * Integer.BYTES + Short.BYTES));
             changedOrNewOreChunks.stream().map(oreChunks::get).forEach(oreVeinPosition -> {
                 byteBuffer.putInt(oreVeinPosition.chunkX);
                 byteBuffer.putInt(oreVeinPosition.chunkZ);
@@ -54,18 +56,16 @@ public class DimensionCache {
 
     public ByteBuffer saveUndergroundFluids() {
         if (!changedOrNewUndergroundFluids.isEmpty()) {
-            final int initialCapacity = changedOrNewUndergroundFluids.size()
-                    * (Long.BYTES
-                            + Integer.BYTES * (8 + VP.undergroundFluidSizeChunkX * VP.undergroundFluidSizeChunkZ));
+            final int initialCapacity = changedOrNewUndergroundFluids.size() * (Long.BYTES
+                    + Integer.BYTES * (8 + VP.undergroundFluidSizeChunkX * VP.undergroundFluidSizeChunkZ));
             try (final ByteArrayOutputStream baos = new ByteArrayOutputStream(initialCapacity);
                     final DataOutputStream dos = new DataOutputStream(baos)) {
                 for (ChunkCoordIntPair changedOrNewUndergroundFluid : changedOrNewUndergroundFluids) {
-                    UndergroundFluidPosition undergroundFluidPosition =
-                            undergroundFluids.get(changedOrNewUndergroundFluid);
+                    UndergroundFluidPosition undergroundFluidPosition = undergroundFluids
+                            .get(changedOrNewUndergroundFluid);
                     dos.writeInt(undergroundFluidPosition.chunkX);
                     dos.writeInt(undergroundFluidPosition.chunkZ);
-                    byte[] fluidNameBytes =
-                            undergroundFluidPosition.fluid.getName().getBytes(StandardCharsets.UTF_8);
+                    byte[] fluidNameBytes = undergroundFluidPosition.fluid.getName().getBytes(StandardCharsets.UTF_8);
                     // Negative to keep backwards compat with int fluidID written here before.
                     dos.writeInt(-fluidNameBytes.length);
                     dos.write(fluidNameBytes);
@@ -182,8 +182,8 @@ public class DimensionCache {
 
     public UndergroundFluidPosition getUndergroundFluid(int chunkX, int chunkZ) {
         final ChunkCoordIntPair key = getUndergroundFluidKey(chunkX, chunkZ);
-        return undergroundFluids.getOrDefault(
-                key, UndergroundFluidPosition.getNotProspected(dimensionId, chunkX, chunkZ));
+        return undergroundFluids
+                .getOrDefault(key, UndergroundFluidPosition.getNotProspected(dimensionId, chunkX, chunkZ));
     }
 
     public Collection<OreVeinPosition> getAllOreVeins() {

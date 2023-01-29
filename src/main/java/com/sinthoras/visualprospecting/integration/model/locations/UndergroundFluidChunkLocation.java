@@ -1,7 +1,8 @@
 package com.sinthoras.visualprospecting.integration.model.locations;
 
-import com.sinthoras.visualprospecting.Utils;
 import net.minecraftforge.fluids.Fluid;
+
+import com.sinthoras.visualprospecting.Utils;
 
 public class UndergroundFluidChunkLocation implements ILocationProvider {
 
@@ -13,14 +14,8 @@ public class UndergroundFluidChunkLocation implements ILocationProvider {
     private final int maxAmountInField;
     private final int minAmountInField;
 
-    public UndergroundFluidChunkLocation(
-            int chunkX,
-            int chunkZ,
-            int dimensionId,
-            Fluid fluid,
-            int fluidAmount,
-            int minAmountInField,
-            int maxAmountInField) {
+    public UndergroundFluidChunkLocation(int chunkX, int chunkZ, int dimensionId, Fluid fluid, int fluidAmount,
+            int minAmountInField, int maxAmountInField) {
         blockX = Utils.coordChunkToBlock(chunkX);
         blockZ = Utils.coordChunkToBlock(chunkZ);
         this.dimensionId = dimensionId;

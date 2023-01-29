@@ -1,9 +1,11 @@
 package com.sinthoras.visualprospecting.integration.journeymap;
 
-import com.sinthoras.visualprospecting.VP;
 import java.lang.reflect.Field;
+
 import journeymap.client.render.map.GridRenderer;
 import journeymap.client.ui.fullscreen.Fullscreen;
+
+import com.sinthoras.visualprospecting.VP;
 
 public class Reflection {
 

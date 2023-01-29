@@ -5,17 +5,19 @@ import static gregtech.common.GT_Proxy.*;
 import static gregtech.common.GT_Proxy.GTOIL;
 import static gregtech.common.GT_UndergroundOil.undergroundOil;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+
 import gregtech.GT_Mod;
 import gregtech.api.objects.GT_UO_Dimension;
 import gregtech.api.objects.GT_UO_Fluid;
 import gregtech.api.objects.XSTR;
 import gregtech.common.GT_UndergroundOil;
-import java.util.HashMap;
-import java.util.Map;
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 public class UndergroundFluidsWrapper {
 
@@ -52,8 +54,8 @@ public class UndergroundFluidsWrapper {
             return null;
         }
 
-        Map<ChunkCoordIntPair, int[]> chunkData =
-                dimensionWiseChunkData.computeIfAbsent(dimensionId, k -> new HashMap<>(1024));
+        Map<ChunkCoordIntPair, int[]> chunkData = dimensionWiseChunkData
+                .computeIfAbsent(dimensionId, k -> new HashMap<>(1024));
 
         int[] tInts = chunkData.get(chunkCoordinate);
 
@@ -79,8 +81,12 @@ public class UndergroundFluidsWrapper {
                 fluidInChunk = new FluidStack(uoFluid.getFluid(), tInts[GTOIL]);
             } else {
                 fluidInChunk = new FluidStack(uoFluid.getFluid(), uoFluid.getRandomAmount(tRandom));
-                fluidInChunk.amount = (int) ((float) fluidInChunk.amount
-                        * (0.75f + (XSTR_INSTANCE.nextFloat() / 2f))); // Randomly change amounts by +/- 25%
+                fluidInChunk.amount = (int) ((float) fluidInChunk.amount * (0.75f + (XSTR_INSTANCE.nextFloat() / 2f))); // Randomly
+                                                                                                                        // change
+                                                                                                                        // amounts
+                                                                                                                        // by
+                                                                                                                        // +/-
+                                                                                                                        // 25%
             }
             tInts[GTOIL] = fluidInChunk.amount;
             tInts[GTOILFLUID] = fluidInChunk.getFluidID();

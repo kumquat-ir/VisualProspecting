@@ -1,13 +1,7 @@
 package com.sinthoras.visualprospecting.item;
 
-import com.sinthoras.visualprospecting.Tags;
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.database.TransferCache;
-import com.sinthoras.visualprospecting.task.SnapshotDownloadTask;
-import com.sinthoras.visualprospecting.task.SnapshotUploadTask;
-import com.sinthoras.visualprospecting.task.TaskManager;
-import gregtech.api.GregTech_API;
 import java.util.List;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,6 +12,14 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+
+import com.sinthoras.visualprospecting.Tags;
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.database.TransferCache;
+import com.sinthoras.visualprospecting.task.SnapshotDownloadTask;
+import com.sinthoras.visualprospecting.task.SnapshotUploadTask;
+import com.sinthoras.visualprospecting.task.TaskManager;
+import gregtech.api.GregTech_API;
 
 public class ProspectorsLog extends Item {
 
@@ -35,8 +37,7 @@ public class ProspectorsLog extends Item {
         if (isFilledLog(item) == false) {
             final NBTTagCompound compound = new NBTTagCompound();
             compound.setString(Tags.PROSPECTORSLOG_AUTHOR, player.getDisplayName());
-            compound.setString(
-                    Tags.PROSPECTORSLOG_AUTHOR_ID, player.getPersistentID().toString());
+            compound.setString(Tags.PROSPECTORSLOG_AUTHOR_ID, player.getPersistentID().toString());
             item.setTagCompound(compound);
             if (world.isRemote) {
                 TaskManager.instance.addTask(new SnapshotUploadTask());
@@ -50,8 +51,8 @@ public class ProspectorsLog extends Item {
                     player.addChatMessage(notification);
                     player.destroyCurrentEquippedItem();
                 } else {
-                    final IChatComponent notification =
-                            new ChatComponentTranslation("item.visualprospecting.prospectorslog.creation.begin");
+                    final IChatComponent notification = new ChatComponentTranslation(
+                            "item.visualprospecting.prospectorslog.creation.begin");
                     notification.getChatStyle().setItalic(true);
                     notification.getChatStyle().setColor(EnumChatFormatting.GRAY);
                     player.addChatMessage(notification);
@@ -61,8 +62,8 @@ public class ProspectorsLog extends Item {
             final NBTTagCompound compound = item.getTagCompound();
             final String authorUuid = compound.getString(Tags.PROSPECTORSLOG_AUTHOR_ID);
             if (authorUuid.equals(player.getPersistentID().toString()) == false) {
-                final int random = VP.randomGeneration.nextInt(
-                        TransferCache.instance.isClientDataAvailable(authorUuid) ? 1000 : 5);
+                final int random = VP.randomGeneration
+                        .nextInt(TransferCache.instance.isClientDataAvailable(authorUuid) ? 1000 : 5);
                 if (random < 5) {
                     final String localizationKey = "item.visualprospecting.prospectorslog.reading.fail" + random;
                     final IChatComponent notification = new ChatComponentTranslation(localizationKey);
@@ -71,8 +72,8 @@ public class ProspectorsLog extends Item {
                     player.addChatMessage(notification);
                     player.destroyCurrentEquippedItem();
                 } else {
-                    final IChatComponent notification =
-                            new ChatComponentTranslation("item.visualprospecting.prospectorslog.reading.begin");
+                    final IChatComponent notification = new ChatComponentTranslation(
+                            "item.visualprospecting.prospectorslog.reading.begin");
                     notification.getChatStyle().setItalic(true);
                     notification.getChatStyle().setColor(EnumChatFormatting.GRAY);
                     player.addChatMessage(notification);
@@ -87,8 +88,10 @@ public class ProspectorsLog extends Item {
     public void addInformation(ItemStack item, EntityPlayer player, List infoList, boolean ignored) {
         if (isFilledLog(item)) {
             final NBTTagCompound compound = item.getTagCompound();
-            infoList.add(I18n.format(
-                    "item.visualprospecting.prospectorslog.author", compound.getString(Tags.PROSPECTORSLOG_AUTHOR)));
+            infoList.add(
+                    I18n.format(
+                            "item.visualprospecting.prospectorslog.author",
+                            compound.getString(Tags.PROSPECTORSLOG_AUTHOR)));
         } else {
             infoList.add(I18n.format("item.visualprospecting.prospectorslog.empty"));
         }
@@ -96,8 +99,7 @@ public class ProspectorsLog extends Item {
 
     private boolean isFilledLog(ItemStack item) {
         final NBTTagCompound compound = item.getTagCompound();
-        return compound != null
-                && compound.hasKey(Tags.PROSPECTORSLOG_AUTHOR)
+        return compound != null && compound.hasKey(Tags.PROSPECTORSLOG_AUTHOR)
                 && compound.hasKey(Tags.PROSPECTORSLOG_AUTHOR_ID);
     }
 }

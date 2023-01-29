@@ -1,11 +1,14 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.gui.GuiScreen;
+
+import org.lwjgl.opengl.GL11;
+
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.integration.DrawUtils;
 import com.sinthoras.visualprospecting.integration.model.locations.UndergroundFluidLocation;
-import javax.annotation.Nullable;
-import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.opengl.GL11;
 
 public class UndergroundFluidRenderStep implements RenderStep {
 
@@ -37,7 +40,9 @@ public class UndergroundFluidRenderStep implements RenderStep {
             // min scale that journeymap can go to
             if (scale >= 1 && gui != null) {
                 GL11.glScaled(1 / scale, 1 / scale, 1);
-                final String label = undergroundFluidLocation.getMinProduction() + "L - " + maxAmountInField + "L  "
+                final String label = undergroundFluidLocation.getMinProduction() + "L - "
+                        + maxAmountInField
+                        + "L  "
                         + undergroundFluidLocation.getFluid().getLocalizedName();
                 DrawUtils.drawSimpleLabel(gui, label, VP.chunkWidth * scale, 0, 0xFFFFFFFF, 0xB4000000, false);
             }

@@ -1,7 +1,8 @@
 package com.sinthoras.visualprospecting.integration.model.locations;
 
-import com.sinthoras.visualprospecting.database.UndergroundFluidPosition;
 import net.minecraftforge.fluids.Fluid;
+
+import com.sinthoras.visualprospecting.database.UndergroundFluidPosition;
 
 public class UndergroundFluidLocation implements ILocationProvider {
 

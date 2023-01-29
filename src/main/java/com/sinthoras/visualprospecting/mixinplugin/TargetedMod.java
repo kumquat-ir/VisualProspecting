@@ -1,7 +1,8 @@
 package com.sinthoras.visualprospecting.mixinplugin;
 
-import com.google.common.io.Files;
 import java.nio.file.Path;
+
+import com.google.common.io.Files;
 
 public enum TargetedMod {
 
@@ -46,7 +47,11 @@ public enum TargetedMod {
     @Override
     public String toString() {
         return "TargetedMod{" + "modName='"
-                + modName + '\'' + ", jarNamePrefixLowercase='"
-                + jarNamePrefixLowercase + '\'' + '}';
+                + modName
+                + '\''
+                + ", jarNamePrefixLowercase='"
+                + jarNamePrefixLowercase
+                + '\''
+                + '}';
     }
 }

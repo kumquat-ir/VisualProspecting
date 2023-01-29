@@ -1,24 +1,26 @@
 package com.sinthoras.visualprospecting.integration.model.locations;
 
-import com.dyonovan.tcnodetracker.lib.NodeList;
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.integration.model.waypoints.Waypoint;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
+
 import org.lwjgl.input.Keyboard;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.nodes.NodeType;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.tiles.TileNode;
 
+import com.dyonovan.tcnodetracker.lib.NodeList;
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.integration.model.waypoints.Waypoint;
+
 public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
 
     private static final String deleteHint = EnumChatFormatting.DARK_GRAY
-            + I18n.format("visualprospecting.node.deletehint", Keyboard.getKeyName(VP.keyAction.getKeyCode()));
-    ;
-    private static final String activeWaypointHint =
-            EnumChatFormatting.GOLD + I18n.format("visualprospecting.iswaypoint");
+            + I18n.format("visualprospecting.node.deletehint", Keyboard.getKeyName(VP.keyAction.getKeyCode()));;
+    private static final String activeWaypointHint = EnumChatFormatting.GOLD
+            + I18n.format("visualprospecting.iswaypoint");
     private static final String title = EnumChatFormatting.BOLD + I18n.format("tile.blockAiry.0.name");
 
     private final NodeList node;
@@ -61,7 +63,8 @@ public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
 
         description = node.mod.equals("BLANK")
                 ? EnumChatFormatting.GRAY + I18n.format("nodetype." + node.type + ".name")
-                : EnumChatFormatting.GRAY + I18n.format("nodetype." + node.type + ".name") + ", "
+                : EnumChatFormatting.GRAY + I18n.format("nodetype." + node.type + ".name")
+                        + ", "
                         + I18n.format("nodemod." + node.mod + ".name");
     }
 
@@ -107,8 +110,7 @@ public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
 
     @Override
     public void onWaypointUpdated(Waypoint waypoint) {
-        isActiveAsWaypoint = waypoint.dimensionId == node.dim
-                && waypoint.blockX == node.x
+        isActiveAsWaypoint = waypoint.dimensionId == node.dim && waypoint.blockX == node.x
                 && waypoint.blockY == node.y
                 && waypoint.blockZ == node.z;
     }

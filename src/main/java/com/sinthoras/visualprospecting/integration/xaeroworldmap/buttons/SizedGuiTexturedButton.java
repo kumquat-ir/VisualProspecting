@@ -1,11 +1,14 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons;
 
 import java.util.function.Consumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import xaero.map.gui.CursorBox;
 import xaero.map.gui.GuiTexturedButton;
 
@@ -18,8 +21,8 @@ public class SizedGuiTexturedButton extends GuiTexturedButton {
 
     protected boolean active;
 
-    public SizedGuiTexturedButton(
-            int x, int y, ResourceLocation texture, Consumer<GuiButton> action, CursorBox tooltip) {
+    public SizedGuiTexturedButton(int x, int y, ResourceLocation texture, Consumer<GuiButton> action,
+            CursorBox tooltip) {
         super(x, y, BUTTON_WIDTH, BUTTON_HEIGHT, 0, 0, ICON_WIDTH, ICON_HEIGHT, texture, action, tooltip);
         active = false;
     }

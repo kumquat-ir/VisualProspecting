@@ -1,14 +1,16 @@
 package com.sinthoras.visualprospecting.mixins.journeymap;
 
-import com.sinthoras.visualprospecting.integration.model.MapState;
-import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
-import com.sinthoras.visualprospecting.integration.model.layers.WaypointProviderManager;
 import journeymap.client.ui.waypoint.WaypointManager;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.sinthoras.visualprospecting.integration.model.MapState;
+import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
+import com.sinthoras.visualprospecting.integration.model.layers.WaypointProviderManager;
 
 @Mixin(WaypointManager.class)
 public class WaypointManagerMixin {

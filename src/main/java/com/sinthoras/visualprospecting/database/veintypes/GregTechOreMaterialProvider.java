@@ -1,10 +1,11 @@
 package com.sinthoras.visualprospecting.database.veintypes;
 
+import net.minecraft.util.IIcon;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
-import net.minecraft.util.IIcon;
 
 public class GregTechOreMaterialProvider implements IOreMaterialProvider {
 

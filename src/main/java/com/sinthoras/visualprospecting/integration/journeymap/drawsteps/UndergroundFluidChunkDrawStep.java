@@ -1,12 +1,14 @@
 package com.sinthoras.visualprospecting.integration.journeymap.drawsteps;
 
-import com.sinthoras.visualprospecting.Config;
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.integration.model.locations.UndergroundFluidChunkLocation;
 import java.awt.geom.Point2D;
+
 import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
+
+import com.sinthoras.visualprospecting.Config;
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.integration.model.locations.UndergroundFluidChunkLocation;
 
 public class UndergroundFluidChunkDrawStep implements DrawStep {
 
@@ -17,23 +19,20 @@ public class UndergroundFluidChunkDrawStep implements DrawStep {
     }
 
     @Override
-    public void draw(
-            double draggedPixelX,
-            double draggedPixelY,
-            GridRenderer gridRenderer,
-            float drawScale,
-            double fontScale,
-            double rotation) {
+    public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
+            double fontScale, double rotation) {
         final int zoom = gridRenderer.getZoom();
         if (undergroundFluidChunkLocation.getFluidAmount() > 0
                 && zoom >= Config.minZoomLevelForUndergroundFluidDetails) {
             double blockSize = Math.pow(2, zoom);
             final Point2D.Double blockAsPixel = gridRenderer.getBlockPixelInGrid(
-                    undergroundFluidChunkLocation.getBlockX(), undergroundFluidChunkLocation.getBlockZ());
-            final Point2D.Double pixel =
-                    new Point2D.Double(blockAsPixel.getX() + draggedPixelX, blockAsPixel.getY() + draggedPixelY);
+                    undergroundFluidChunkLocation.getBlockX(),
+                    undergroundFluidChunkLocation.getBlockZ());
+            final Point2D.Double pixel = new Point2D.Double(
+                    blockAsPixel.getX() + draggedPixelX,
+                    blockAsPixel.getY() + draggedPixelY);
             float alpha = ((float) (undergroundFluidChunkLocation.getFluidAmount()
-                            - undergroundFluidChunkLocation.getMinAmountInField()))
+                    - undergroundFluidChunkLocation.getMinAmountInField()))
                     / (undergroundFluidChunkLocation.getMaxAmountInField()
                             - undergroundFluidChunkLocation.getMinAmountInField()
                             + 1);

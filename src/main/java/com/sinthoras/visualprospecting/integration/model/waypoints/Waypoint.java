@@ -1,6 +1,7 @@
 package com.sinthoras.visualprospecting.integration.model.waypoints;
 
 public class Waypoint {
+
     public final int blockX;
     public final int blockY;
     public final int blockZ;

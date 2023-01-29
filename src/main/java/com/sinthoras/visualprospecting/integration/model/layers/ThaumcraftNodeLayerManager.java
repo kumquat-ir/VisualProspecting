@@ -1,13 +1,15 @@
 package com.sinthoras.visualprospecting.integration.model.layers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
+
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 import com.sinthoras.visualprospecting.integration.model.buttons.ThaumcraftNodeButtonManager;
 import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
 import com.sinthoras.visualprospecting.integration.model.locations.ThaumcraftNodeLocation;
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.client.Minecraft;
 
 public class ThaumcraftNodeLayerManager extends WaypointProviderManager {
 
@@ -24,8 +26,7 @@ public class ThaumcraftNodeLayerManager extends WaypointProviderManager {
 
     @Override
     protected boolean needsRegenerateVisibleElements(int minBlockX, int minBlockZ, int maxBlockX, int maxBlockZ) {
-        if (minBlockX != oldMinBlockX
-                || minBlockZ != oldMinBlockZ
+        if (minBlockX != oldMinBlockX || minBlockZ != oldMinBlockZ
                 || maxBlockX != oldMaxBlockX
                 || maxBlockZ != oldMaxBlockZ) {
             oldMinBlockX = minBlockX;
@@ -38,15 +39,14 @@ public class ThaumcraftNodeLayerManager extends WaypointProviderManager {
     }
 
     @Override
-    protected List<? extends IWaypointAndLocationProvider> generateVisibleElements(
-            int minBlockX, int minBlockZ, int maxBlockX, int maxBlockZ) {
+    protected List<? extends IWaypointAndLocationProvider> generateVisibleElements(int minBlockX, int minBlockZ,
+            int maxBlockX, int maxBlockZ) {
         final int playerDimensionId = Minecraft.getMinecraft().thePlayer.dimension;
 
         ArrayList<ThaumcraftNodeLocation> thaumcraftNodeLocations = new ArrayList<>();
 
         for (NodeList node : TCNodeTracker.nodelist) {
-            if (node.dim == playerDimensionId
-                    && node.x >= minBlockX
+            if (node.dim == playerDimensionId && node.x >= minBlockX
                     && node.x <= maxBlockX
                     && node.z >= minBlockZ
                     && node.z <= maxBlockZ) {

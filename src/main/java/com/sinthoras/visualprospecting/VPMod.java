@@ -1,6 +1,7 @@
 package com.sinthoras.visualprospecting;
 
 import com.sinthoras.visualprospecting.hooks.HooksShared;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;

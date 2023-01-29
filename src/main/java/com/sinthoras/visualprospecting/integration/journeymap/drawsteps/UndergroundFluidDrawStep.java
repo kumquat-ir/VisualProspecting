@@ -1,11 +1,13 @@
 package com.sinthoras.visualprospecting.integration.journeymap.drawsteps;
 
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.integration.model.locations.UndergroundFluidLocation;
 import java.awt.geom.Point2D;
+
 import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
+
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.integration.model.locations.UndergroundFluidLocation;
 
 public class UndergroundFluidDrawStep implements DrawStep {
 
@@ -16,20 +18,16 @@ public class UndergroundFluidDrawStep implements DrawStep {
     }
 
     @Override
-    public void draw(
-            double draggedPixelX,
-            double draggedPixelY,
-            GridRenderer gridRenderer,
-            float drawScale,
-            double fontScale,
-            double rotation) {
+    public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
+            double fontScale, double rotation) {
         final int maxAmountInField = undergroundFluidLocation.getMaxProduction();
         if (maxAmountInField > 0) {
             final double blockSize = Math.pow(2, gridRenderer.getZoom());
-            final Point2D.Double blockAsPixel = gridRenderer.getBlockPixelInGrid(
-                    undergroundFluidLocation.getBlockX(), undergroundFluidLocation.getBlockZ());
-            final Point2D.Double pixel =
-                    new Point2D.Double(blockAsPixel.getX() + draggedPixelX, blockAsPixel.getY() + draggedPixelY);
+            final Point2D.Double blockAsPixel = gridRenderer
+                    .getBlockPixelInGrid(undergroundFluidLocation.getBlockX(), undergroundFluidLocation.getBlockZ());
+            final Point2D.Double pixel = new Point2D.Double(
+                    blockAsPixel.getX() + draggedPixelX,
+                    blockAsPixel.getY() + draggedPixelY);
 
             final int borderColor = undergroundFluidLocation.getFluid().getColor();
             final int borderAlpha = 204;
@@ -62,7 +60,9 @@ public class UndergroundFluidDrawStep implements DrawStep {
                     borderColor,
                     borderAlpha);
 
-            final String label = undergroundFluidLocation.getMinProduction() + "L - " + maxAmountInField + "L  "
+            final String label = undergroundFluidLocation.getMinProduction() + "L - "
+                    + maxAmountInField
+                    + "L  "
                     + undergroundFluidLocation.getFluid().getLocalizedName();
             DrawUtil.drawLabel(
                     label,

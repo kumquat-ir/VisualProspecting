@@ -1,14 +1,15 @@
 package com.sinthoras.visualprospecting.database;
 
-import com.sinthoras.visualprospecting.Tags;
-import com.sinthoras.visualprospecting.Utils;
-import com.sinthoras.visualprospecting.database.veintypes.VeinType;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import com.sinthoras.visualprospecting.Tags;
+import com.sinthoras.visualprospecting.Utils;
+import com.sinthoras.visualprospecting.database.veintypes.VeinType;
 
 public abstract class WorldCache {
 
@@ -31,8 +32,8 @@ public abstract class WorldCache {
         oreVeinCacheDirectory.mkdirs();
         undergroundFluidCacheDirectory.mkdirs();
         final Map<Integer, ByteBuffer> oreVeinDimensionBuffers = Utils.getDIMFiles(oreVeinCacheDirectory);
-        final Map<Integer, ByteBuffer> undergroundFluidDimensionBuffers =
-                Utils.getDIMFiles(undergroundFluidCacheDirectory);
+        final Map<Integer, ByteBuffer> undergroundFluidDimensionBuffers = Utils
+                .getDIMFiles(undergroundFluidCacheDirectory);
         final Set<Integer> dimensionsIds = new HashSet<>();
         dimensionsIds.addAll(oreVeinDimensionBuffers.keySet());
         dimensionsIds.addAll(undergroundFluidDimensionBuffers.keySet());
@@ -43,7 +44,8 @@ public abstract class WorldCache {
         for (int dimensionId : dimensionsIds) {
             final DimensionCache dimension = new DimensionCache(dimensionId);
             dimension.loadCache(
-                    oreVeinDimensionBuffers.get(dimensionId), undergroundFluidDimensionBuffers.get(dimensionId));
+                    oreVeinDimensionBuffers.get(dimensionId),
+                    undergroundFluidDimensionBuffers.get(dimensionId));
             dimensions.put(dimensionId, dimension);
         }
         return true;
@@ -55,7 +57,8 @@ public abstract class WorldCache {
                 final ByteBuffer oreVeinBuffer = dimension.saveOreChunks();
                 if (oreVeinBuffer != null) {
                     Utils.appendToFile(
-                            new File(oreVeinCacheDirectory.toPath() + "/DIM" + dimension.dimensionId), oreVeinBuffer);
+                            new File(oreVeinCacheDirectory.toPath() + "/DIM" + dimension.dimensionId),
+                            oreVeinBuffer);
                 }
                 final ByteBuffer undergroundFluidBuffer = dimension.saveUndergroundFluids();
                 if (undergroundFluidBuffer != null) {

@@ -3,20 +3,23 @@ package com.sinthoras.visualprospecting.network;
 import static com.sinthoras.visualprospecting.Utils.isSmallOreId;
 import static com.sinthoras.visualprospecting.Utils.oreIdToMaterialId;
 
+import java.util.*;
+
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.database.OreVeinPosition;
 import com.sinthoras.visualprospecting.database.ServerCache;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import gregtech.common.blocks.GT_Block_Ores_Abstract;
 import gregtech.common.blocks.GT_TileEntity_Ores;
 import io.netty.buffer.ByteBuf;
-import java.util.*;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public class ProspectingRequest implements IMessage {
 
@@ -75,16 +78,16 @@ public class ProspectingRequest implements IMessage {
             final UUID uuid = ctx.getServerHandler().playerEntity.getUniqueID();
             final long lastRequest = lastRequestPerPlayer.containsKey(uuid) ? lastRequestPerPlayer.get(uuid) : 0;
             final long timestamp = System.currentTimeMillis();
-            final float distanceSquared = ctx.getServerHandler()
-                    .playerEntity
-                    .getPlayerCoordinates()
+            final float distanceSquared = ctx.getServerHandler().playerEntity.getPlayerCoordinates()
                     .getDistanceSquared(message.blockX, message.blockY, message.blockZ);
             final World world = ctx.getServerHandler().playerEntity.getEntityWorld();
             final int chunkX = Utils.coordBlockToChunk(message.blockX);
             final int chunkZ = Utils.coordBlockToChunk(message.blockZ);
             final boolean isChunkLoaded = world.getChunkProvider().chunkExists(chunkX, chunkZ);
-            if (ctx.getServerHandler().playerEntity.dimension == message.dimensionId
-                    && distanceSquared <= 1024 // max 32 blocks distance
+            if (ctx.getServerHandler().playerEntity.dimension == message.dimensionId && distanceSquared <= 1024 // max
+                                                                                                                // 32
+                                                                                                                // blocks
+                                                                                                                // distance
                     && timestamp - lastRequest >= Config.minDelayBetweenVeinRequests
                     && isChunkLoaded) {
                 final Block block = world.getBlock(message.blockX, message.blockY, message.blockZ);
@@ -97,8 +100,8 @@ public class ProspectingRequest implements IMessage {
                             lastRequestPerPlayer.put(uuid, timestamp);
 
                             // Prioritise center vein
-                            final OreVeinPosition centerOreVeinPosition =
-                                    ServerCache.instance.getOreVein(message.dimensionId, chunkX, chunkZ);
+                            final OreVeinPosition centerOreVeinPosition = ServerCache.instance
+                                    .getOreVein(message.dimensionId, chunkX, chunkZ);
                             if (centerOreVeinPosition.veinType.containsOre(message.foundOreMetaData)) {
                                 return new ProspectingNotification(centerOreVeinPosition);
                             }
@@ -112,9 +115,10 @@ public class ProspectingRequest implements IMessage {
                                         final int neighborChunkX = centerChunkX + offsetChunkX;
                                         final int neighborChunkZ = centerChunkZ + offsetChunkZ;
                                         final int distanceBlocks = Math.max(
-                                                Math.abs(neighborChunkX - chunkX), Math.abs(neighborChunkZ - chunkZ));
-                                        final OreVeinPosition neighborOreVeinPosition = ServerCache.instance.getOreVein(
-                                                message.dimensionId, neighborChunkX, neighborChunkZ);
+                                                Math.abs(neighborChunkX - chunkX),
+                                                Math.abs(neighborChunkZ - chunkZ));
+                                        final OreVeinPosition neighborOreVeinPosition = ServerCache.instance
+                                                .getOreVein(message.dimensionId, neighborChunkX, neighborChunkZ);
                                         final int maxDistance = ((neighborOreVeinPosition.veinType.blockSize + 16) >> 4)
                                                 + 1; // Equals to: ceil(blockSize / 16.0) + 1
                                         if (neighborOreVeinPosition.veinType.containsOre(message.foundOreMetaData)

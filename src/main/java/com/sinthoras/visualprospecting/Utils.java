@@ -1,9 +1,5 @@
 package com.sinthoras.visualprospecting;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.sinthoras.visualprospecting.hooks.HooksClient;
-import cpw.mods.fml.common.Loader;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -15,8 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.sinthoras.visualprospecting.hooks.HooksClient;
+import cpw.mods.fml.common.Loader;
 
 public class Utils {
 
@@ -113,9 +115,7 @@ public class Utils {
 
     public static void deleteDirectoryRecursively(final File targetDirectory) {
         try {
-            Files.walk(targetDirectory.toPath())
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
+            Files.walk(targetDirectory.toPath()).sorted(Comparator.reverseOrder()).map(Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
             e.printStackTrace();
@@ -193,11 +193,9 @@ public class Utils {
 
     public static Map<Integer, ByteBuffer> getDIMFiles(File directory) {
         try {
-            final List<Integer> dimensionIds = Files.walk(directory.toPath(), 1)
-                    .filter(Files::isRegularFile)
+            final List<Integer> dimensionIds = Files.walk(directory.toPath(), 1).filter(Files::isRegularFile)
                     .filter(path -> path.getFileName().toString().startsWith("DIM"))
-                    .map(dimensionFolder -> Integer.parseInt(
-                            dimensionFolder.getFileName().toString().substring(3)))
+                    .map(dimensionFolder -> Integer.parseInt(dimensionFolder.getFileName().toString().substring(3)))
                     .collect(Collectors.toList());
             final Map<Integer, ByteBuffer> dimensionFiles = new HashMap<>();
             for (int dimensionId : dimensionIds) {

@@ -1,9 +1,10 @@
 package com.sinthoras.visualprospecting.integration.model.buttons;
 
-import com.sinthoras.visualprospecting.integration.model.MapState;
-import com.sinthoras.visualprospecting.integration.model.SupportedMods;
 import java.util.EnumMap;
 import java.util.Map;
+
+import com.sinthoras.visualprospecting.integration.model.MapState;
+import com.sinthoras.visualprospecting.integration.model.SupportedMods;
 
 public class ButtonManager {
 
@@ -14,9 +15,9 @@ public class ButtonManager {
     private boolean isActive = false;
 
     /*
-    Provide textures in assets/journeymap/icon/theme/Vault/icon/<iconName>.png
-    and assets/journeymap/icon/theme/Victorian/icon/<iconName>.png for JourneyMap
-    and provide a texture in assets/xaeroworldmap/textures/<iconName>.png for XaeroWorldMap.
+     * Provide textures in assets/journeymap/icon/theme/Vault/icon/<iconName>.png and
+     * assets/journeymap/icon/theme/Victorian/icon/<iconName>.png for JourneyMap and provide a texture in
+     * assets/xaeroworldmap/textures/<iconName>.png for XaeroWorldMap.
      */
     public ButtonManager(String buttonTextKey, String iconName) {
         this.buttonTextKey = buttonTextKey;

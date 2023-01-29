@@ -1,10 +1,13 @@
 package com.sinthoras.visualprospecting;
 
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import java.util.Random;
+
 import net.minecraft.client.settings.KeyBinding;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 public class VP {
 

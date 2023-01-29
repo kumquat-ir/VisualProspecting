@@ -1,13 +1,7 @@
 package com.sinthoras.visualprospecting.mixins.journeymap;
 
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.integration.journeymap.JourneyMapState;
-import com.sinthoras.visualprospecting.integration.journeymap.buttons.LayerButton;
-import com.sinthoras.visualprospecting.integration.journeymap.render.LayerRenderer;
-import com.sinthoras.visualprospecting.integration.journeymap.render.WaypointProviderLayerRenderer;
-import com.sinthoras.visualprospecting.integration.model.MapState;
-import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import java.util.List;
+
 import journeymap.client.Constants;
 import journeymap.client.io.ThemeFileHandler;
 import journeymap.client.log.LogFormatter;
@@ -25,9 +19,11 @@ import journeymap.client.ui.theme.Theme;
 import journeymap.client.ui.theme.ThemeButton;
 import journeymap.client.ui.theme.ThemeToggle;
 import journeymap.client.ui.theme.ThemeToolbar;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
+
 import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Final;
@@ -39,6 +35,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import org.spongepowered.libraries.org.objectweb.asm.Opcodes;
+
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.integration.journeymap.JourneyMapState;
+import com.sinthoras.visualprospecting.integration.journeymap.buttons.LayerButton;
+import com.sinthoras.visualprospecting.integration.journeymap.render.LayerRenderer;
+import com.sinthoras.visualprospecting.integration.journeymap.render.WaypointProviderLayerRenderer;
+import com.sinthoras.visualprospecting.integration.model.MapState;
+import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 
 @Mixin(value = Fullscreen.class, remap = false)
 public abstract class FullscreenMixin extends JmUI {
@@ -108,20 +112,14 @@ public abstract class FullscreenMixin extends JmUI {
 
     @Inject(
             method = "drawMap",
-            at =
-                    @At(
-                            value = "INVOKE",
-                            target = "Ljourneymap/client/model/MapState;getDrawWaypointSteps()Ljava/util/List;"),
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljourneymap/client/model/MapState;getDrawWaypointSteps()Ljava/util/List;"),
             remap = false,
             require = 1,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private void onBeforeDrawJourneyMapWaypoints(
-            CallbackInfo callbackInfo,
-            boolean refreshReady,
-            StatTimer timer,
-            int xOffset,
-            int yOffset,
-            float drawScale) {
+    private void onBeforeDrawJourneyMapWaypoints(CallbackInfo callbackInfo, boolean refreshReady, StatTimer timer,
+            int xOffset, int yOffset, float drawScale) {
         final int fontScale = getMapFontScale();
         final Minecraft minecraft = Minecraft.getMinecraft();
         final int centerBlockX = (int) Math.round(gridRenderer.getCenterBlockX());
@@ -137,19 +135,22 @@ public abstract class FullscreenMixin extends JmUI {
         for (LayerRenderer layerRenderer : JourneyMapState.instance.renderers) {
             if (layerRenderer.isLayerActive()) {
                 gridRenderer.draw(
-                        layerRenderer.getDrawStepsCachedForRendering(), xOffset, yOffset, drawScale, fontScale, 0.0);
+                        layerRenderer.getDrawStepsCachedForRendering(),
+                        xOffset,
+                        yOffset,
+                        drawScale,
+                        fontScale,
+                        0.0);
             }
         }
     }
 
     @Redirect(
             method = "initButtons",
-            at =
-                    @At(
-                            value = "FIELD",
-                            target =
-                                    "Ljourneymap/client/ui/fullscreen/Fullscreen;mapTypeToolbar:Ljourneymap/client/ui/theme/ThemeToolbar;",
-                            opcode = Opcodes.PUTFIELD),
+            at = @At(
+                    value = "FIELD",
+                    target = "Ljourneymap/client/ui/fullscreen/Fullscreen;mapTypeToolbar:Ljourneymap/client/ui/theme/ThemeToolbar;",
+                    opcode = Opcodes.PUTFIELD),
             remap = false,
             require = 1)
     private void OnCreateMapTypeToolbar(Fullscreen owner, ThemeToolbar value) {
@@ -157,8 +158,10 @@ public abstract class FullscreenMixin extends JmUI {
         final ButtonList buttonList = new ButtonList();
 
         for (LayerButton layerButton : JourneyMapState.instance.buttons) {
-            final ThemeToggle button =
-                    new ThemeToggle(theme, layerButton.getButtonTextKey(), layerButton.getIconName());
+            final ThemeToggle button = new ThemeToggle(
+                    theme,
+                    layerButton.getButtonTextKey(),
+                    layerButton.getIconName());
             layerButton.setButton(button);
             button.setToggled(layerButton.isActive(), false);
             button.addToggleListener((unused, toggled) -> {
@@ -210,8 +213,7 @@ public abstract class FullscreenMixin extends JmUI {
             if (tooltip == null) {
                 for (LayerRenderer layer : JourneyMapState.instance.renderers) {
                     if (layer instanceof WaypointProviderLayerRenderer) {
-                        final WaypointProviderLayerRenderer waypointProviderLayer =
-                                (WaypointProviderLayerRenderer) layer;
+                        final WaypointProviderLayerRenderer waypointProviderLayer = (WaypointProviderLayerRenderer) layer;
                         if (waypointProviderLayer.isLayerActive()) {
                             tooltip = waypointProviderLayer.getTextTooltip();
                         }
@@ -229,8 +231,7 @@ public abstract class FullscreenMixin extends JmUI {
             } else {
                 for (LayerRenderer layer : JourneyMapState.instance.renderers) {
                     if (layer instanceof WaypointProviderLayerRenderer) {
-                        final WaypointProviderLayerRenderer waypointProviderLayer =
-                                (WaypointProviderLayerRenderer) layer;
+                        final WaypointProviderLayerRenderer waypointProviderLayer = (WaypointProviderLayerRenderer) layer;
                         if (waypointProviderLayer.isLayerActive()) {
                             waypointProviderLayer.drawCustomTooltip(getFontRenderer(), mx, my, this.width, this.height);
                         }
@@ -240,7 +241,8 @@ public abstract class FullscreenMixin extends JmUI {
 
         } catch (Throwable var11) {
             logger.log(
-                    Level.ERROR, "Unexpected exception in jm.fullscreen.drawScreen(): " + LogFormatter.toString(var11));
+                    Level.ERROR,
+                    "Unexpected exception in jm.fullscreen.drawScreen(): " + LogFormatter.toString(var11));
             UIManager.getInstance().closeAll();
         } finally {
             drawScreenTimer.stop();
@@ -271,8 +273,8 @@ public abstract class FullscreenMixin extends JmUI {
             final int scaledMouseY = my * mc.displayHeight / height;
             final double blockSize = Math.pow(2.0D, gridRenderer.getZoom());
             if (onMapClicked(mouseButton, scaledMouseX, scaledMouseY, blockSize) == false) {
-                BlockCoordIntPair blockCoord = gridRenderer.getBlockUnderMouse(
-                        Mouse.getEventX(), Mouse.getEventY(), mc.displayWidth, mc.displayHeight);
+                BlockCoordIntPair blockCoord = gridRenderer
+                        .getBlockUnderMouse(Mouse.getEventX(), Mouse.getEventY(), mc.displayWidth, mc.displayHeight);
                 layerDelegate.onMouseClicked(
                         mc,
                         Mouse.getEventX(),

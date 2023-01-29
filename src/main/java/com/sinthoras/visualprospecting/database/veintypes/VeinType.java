@@ -1,13 +1,15 @@
 package com.sinthoras.visualprospecting.database.veintypes;
 
-import com.sinthoras.visualprospecting.Tags;
-import gregtech.api.GregTech_API;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import net.minecraft.util.EnumChatFormatting;
+
+import com.sinthoras.visualprospecting.Tags;
+import gregtech.api.GregTech_API;
 
 public class VeinType {
 
@@ -27,19 +29,19 @@ public class VeinType {
     private boolean isHighlighted = true;
 
     // Available after VisualProspecting post GT initialization
-    public static final VeinType NO_VEIN =
-            new VeinType(Tags.ORE_MIX_NONE_NAME, null, 0, (short) -1, (short) -1, (short) -1, (short) -1, 0, 0);
+    public static final VeinType NO_VEIN = new VeinType(
+            Tags.ORE_MIX_NONE_NAME,
+            null,
+            0,
+            (short) -1,
+            (short) -1,
+            (short) -1,
+            (short) -1,
+            0,
+            0);
 
-    public VeinType(
-            String name,
-            IOreMaterialProvider oreMaterialProvider,
-            int blockSize,
-            short primaryOreMeta,
-            short secondaryOreMeta,
-            short inBetweenOreMeta,
-            short sporadicOreMeta,
-            int minBlockY,
-            int maxBlockY) {
+    public VeinType(String name, IOreMaterialProvider oreMaterialProvider, int blockSize, short primaryOreMeta,
+            short secondaryOreMeta, short inBetweenOreMeta, short sporadicOreMeta, int minBlockY, int maxBlockY) {
         this.name = name;
         this.oreMaterialProvider = oreMaterialProvider;
         this.blockSize = blockSize;
@@ -74,18 +76,14 @@ public class VeinType {
     }
 
     public boolean containsOre(short oreMetaData) {
-        return primaryOreMeta == oreMetaData
-                || secondaryOreMeta == oreMetaData
+        return primaryOreMeta == oreMetaData || secondaryOreMeta == oreMetaData
                 || inBetweenOreMeta == oreMetaData
                 || sporadicOreMeta == oreMetaData;
     }
 
     public List<String> getOreMaterialNames() {
-        return oresAsSet.stream()
-                .map(metaData -> GregTech_API.sGeneratedMaterials[metaData])
-                .filter(Objects::nonNull)
-                .map(material -> EnumChatFormatting.GRAY + material.mLocalizedName)
-                .collect(Collectors.toList());
+        return oresAsSet.stream().map(metaData -> GregTech_API.sGeneratedMaterials[metaData]).filter(Objects::nonNull)
+                .map(material -> EnumChatFormatting.GRAY + material.mLocalizedName).collect(Collectors.toList());
     }
 
     public Set<Short> getOresAtLayer(int layerBlockY) {

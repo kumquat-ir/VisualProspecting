@@ -1,9 +1,10 @@
 package com.sinthoras.visualprospecting.integration.journeymap.waypoints;
 
+import java.awt.*;
+
 import com.sinthoras.visualprospecting.integration.model.SupportedMods;
 import com.sinthoras.visualprospecting.integration.model.layers.WaypointProviderManager;
 import com.sinthoras.visualprospecting.integration.model.waypoints.Waypoint;
-import java.awt.*;
 
 public class WaypointManager extends com.sinthoras.visualprospecting.integration.model.waypoints.WaypointManager {
 
@@ -28,8 +29,7 @@ public class WaypointManager extends com.sinthoras.visualprospecting.integration
 
     @Override
     public void updateActiveWaypoint(Waypoint waypoint) {
-        if (hasWaypoint() == false
-                || waypoint.blockX != jmWaypoint.getX()
+        if (hasWaypoint() == false || waypoint.blockX != jmWaypoint.getX()
                 || waypoint.blockY != jmWaypoint.getY()
                 || waypoint.blockZ != jmWaypoint.getZ()
                 || jmWaypoint.getDimensions().contains(waypoint.dimensionId) == false) {

@@ -1,10 +1,12 @@
 package com.sinthoras.visualprospecting.database;
 
-import com.sinthoras.visualprospecting.Tags;
 import java.util.UUID;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.WorldServer;
+
+import com.sinthoras.visualprospecting.Tags;
 
 public class WorldIdHandler extends WorldSavedData {
 

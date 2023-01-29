@@ -1,6 +1,7 @@
 package com.sinthoras.visualprospecting;
 
 import java.io.File;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
@@ -22,6 +23,7 @@ public class Config {
     }
 
     private static class Categories {
+
         public static final String general = "general";
         public static final String network = "network";
         public static final String integration = "integration";

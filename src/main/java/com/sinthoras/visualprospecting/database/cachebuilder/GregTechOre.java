@@ -19,8 +19,7 @@ public class GregTechOre {
         final NBTShort tagMeta = (NBTShort) tileEntity.getTag("m");
         final NBTInt tagBlockY = (NBTInt) tileEntity.getTag("y");
 
-        if (tagId != null
-                && tagId.getText().equals("GT_TileEntity_Ores")
+        if (tagId != null && tagId.getText().equals("GT_TileEntity_Ores")
                 && tagBlockY != null
                 && tagMeta != null
                 && isSmallOreId(tagMeta.data) == false) {

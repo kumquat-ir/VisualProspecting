@@ -1,5 +1,13 @@
 package com.sinthoras.visualprospecting.hooks;
 
+import java.io.IOException;
+import java.util.zip.DataFormatException;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.MinecraftForge;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.Tags;
 import com.sinthoras.visualprospecting.VP;
@@ -13,6 +21,7 @@ import com.sinthoras.visualprospecting.network.ProspectingNotification;
 import com.sinthoras.visualprospecting.network.ProspectingRequest;
 import com.sinthoras.visualprospecting.network.ProspectionSharing;
 import com.sinthoras.visualprospecting.network.WorldIdNotification;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -30,12 +39,6 @@ import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.util.GT_OreDictUnificator;
-import java.io.IOException;
-import java.util.zip.DataFormatException;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
 
 public class HooksShared {
 
@@ -46,16 +49,28 @@ public class HooksShared {
 
         VP.network = NetworkRegistry.INSTANCE.newSimpleChannel(Tags.MODID);
         int networkId = 0;
+        VP.network
+                .registerMessage(ProspectingRequest.Handler.class, ProspectingRequest.class, networkId++, Side.SERVER);
         VP.network.registerMessage(
-                ProspectingRequest.Handler.class, ProspectingRequest.class, networkId++, Side.SERVER);
+                ProspectingNotification.Handler.class,
+                ProspectingNotification.class,
+                networkId++,
+                Side.CLIENT);
         VP.network.registerMessage(
-                ProspectingNotification.Handler.class, ProspectingNotification.class, networkId++, Side.CLIENT);
+                WorldIdNotification.Handler.class,
+                WorldIdNotification.class,
+                networkId++,
+                Side.CLIENT);
         VP.network.registerMessage(
-                WorldIdNotification.Handler.class, WorldIdNotification.class, networkId++, Side.CLIENT);
+                ProspectionSharing.ServerHandler.class,
+                ProspectionSharing.class,
+                networkId++,
+                Side.SERVER);
         VP.network.registerMessage(
-                ProspectionSharing.ServerHandler.class, ProspectionSharing.class, networkId++, Side.SERVER);
-        VP.network.registerMessage(
-                ProspectionSharing.ClientHandler.class, ProspectionSharing.class, networkId++, Side.CLIENT);
+                ProspectionSharing.ClientHandler.class,
+                ProspectionSharing.class,
+                networkId++,
+                Side.CLIENT);
 
         ProspectorsLog.instance = new ProspectorsLog();
         GameRegistry.registerItem(ProspectorsLog.instance, ProspectorsLog.instance.getUnlocalizedName());
@@ -70,16 +85,15 @@ public class HooksShared {
     // postInit "Handle interaction with other mods, complete your setup based on this."
     public void fmlLifeCycleEvent(FMLPostInitializationEvent event) {
         GregTech_API.sAfterGTPostload.add(new VeinTypeCaching());
-        GregTech_API.sAfterGTPostload.add(() -> GT_Values.RA.addAssemblerRecipe(
-                new ItemStack[] {
-                    GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Wood, 2L),
-                    new ItemStack(Items.writable_book, 1, 0x7FFF),
-                    new ItemStack(Items.gold_nugget, 1, 0x7FFF)
-                },
-                Materials.Glue.getFluid(20L),
-                new ItemStack(ProspectorsLog.instance, 1, 0),
-                128,
-                8));
+        GregTech_API.sAfterGTPostload.add(
+                () -> GT_Values.RA.addAssemblerRecipe(
+                        new ItemStack[] { GT_OreDictUnificator.get(OrePrefixes.plate, Materials.Wood, 2L),
+                                new ItemStack(Items.writable_book, 1, 0x7FFF),
+                                new ItemStack(Items.gold_nugget, 1, 0x7FFF) },
+                        Materials.Glue.getFluid(20L),
+                        new ItemStack(ProspectorsLog.instance, 1, 0),
+                        128,
+                        8));
     }
 
     public void fmlLifeCycleEvent(FMLServerAboutToStartEvent event) {}

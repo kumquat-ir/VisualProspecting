@@ -1,12 +1,13 @@
 package com.sinthoras.visualprospecting.task;
 
+import java.util.List;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.ClientCache;
 import com.sinthoras.visualprospecting.database.OreVeinPosition;
 import com.sinthoras.visualprospecting.database.UndergroundFluidPosition;
 import com.sinthoras.visualprospecting.network.ProspectionSharing;
-import java.util.List;
 
 public class SnapshotUploadTask implements ITask {
 

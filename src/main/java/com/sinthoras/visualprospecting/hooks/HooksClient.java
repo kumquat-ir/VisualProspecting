@@ -1,9 +1,16 @@
 package com.sinthoras.visualprospecting.hooks;
 
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
+
+import org.lwjgl.input.Keyboard;
+
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.ResetClientCacheCommand;
 import com.sinthoras.visualprospecting.integration.voxelmap.VoxelMapEventHandler;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -13,10 +20,6 @@ import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.common.MinecraftForge;
-import org.lwjgl.input.Keyboard;
 
 public class HooksClient extends HooksShared {
 
@@ -26,7 +29,9 @@ public class HooksClient extends HooksShared {
         super.fmlLifeCycleEvent(event);
 
         VP.keyAction = new KeyBinding(
-                "visualprospecting.key.action.name", Keyboard.KEY_DELETE, "visualprospecting.key.action.category");
+                "visualprospecting.key.action.name",
+                Keyboard.KEY_DELETE,
+                "visualprospecting.key.action.category");
         ClientRegistry.registerKeyBinding(VP.keyAction);
     }
 

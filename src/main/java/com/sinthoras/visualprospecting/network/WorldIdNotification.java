@@ -1,6 +1,7 @@
 package com.sinthoras.visualprospecting.network;
 
 import com.sinthoras.visualprospecting.database.ClientCache;
+
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

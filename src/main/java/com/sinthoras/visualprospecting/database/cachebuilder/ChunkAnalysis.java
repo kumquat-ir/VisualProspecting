@@ -1,11 +1,12 @@
 package com.sinthoras.visualprospecting.database.cachebuilder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.veintypes.VeinType;
 import com.sinthoras.visualprospecting.database.veintypes.VeinTypeCaching;
 import io.xol.enklume.nbt.*;
-import java.util.HashSet;
-import java.util.Set;
 
 // A slim, but faster version to identify >90% of veins
 public class ChunkAnalysis {

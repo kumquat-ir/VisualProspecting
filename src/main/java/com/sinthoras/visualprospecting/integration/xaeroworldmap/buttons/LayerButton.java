@@ -1,8 +1,9 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons;
 
+import net.minecraft.util.ResourceLocation;
+
 import com.sinthoras.visualprospecting.integration.model.SupportedMods;
 import com.sinthoras.visualprospecting.integration.model.buttons.ButtonManager;
-import net.minecraft.util.ResourceLocation;
 
 public class LayerButton extends com.sinthoras.visualprospecting.integration.model.buttons.LayerButton {
 

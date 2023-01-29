@@ -1,13 +1,14 @@
 package com.sinthoras.visualprospecting.integration.model.layers;
 
-import com.sinthoras.visualprospecting.integration.model.SupportedMods;
-import com.sinthoras.visualprospecting.integration.model.buttons.ButtonManager;
-import com.sinthoras.visualprospecting.integration.model.buttons.LayerButton;
-import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
+import com.sinthoras.visualprospecting.integration.model.SupportedMods;
+import com.sinthoras.visualprospecting.integration.model.buttons.ButtonManager;
+import com.sinthoras.visualprospecting.integration.model.buttons.LayerButton;
+import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
 public abstract class LayerManager {
 
@@ -54,8 +55,8 @@ public abstract class LayerManager {
 
     public void onOpenMap() {}
 
-    protected abstract List<? extends ILocationProvider> generateVisibleElements(
-            int minBlockX, int minBlockZ, int maxBlockX, int maxBlockZ);
+    protected abstract List<? extends ILocationProvider> generateVisibleElements(int minBlockX, int minBlockZ,
+            int maxBlockX, int maxBlockZ);
 
     protected boolean needsRegenerateVisibleElements(int minBlockX, int minBlockZ, int maxBlockX, int maxBlockZ) {
         return true;

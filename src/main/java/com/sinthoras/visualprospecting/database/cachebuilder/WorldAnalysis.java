@@ -1,12 +1,13 @@
 package com.sinthoras.visualprospecting.database.cachebuilder;
 
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.database.ServerCache;
-import io.xol.enklume.MinecraftWorld;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.zip.DataFormatException;
+
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.database.ServerCache;
+import io.xol.enklume.MinecraftWorld;
 
 public class WorldAnalysis {
 

@@ -2,23 +2,27 @@ package com.sinthoras.visualprospecting.mixins.gregtech;
 
 import static gregtech.api.util.GT_Utility.ItemNBT.setNBT;
 
-import com.sinthoras.visualprospecting.ServerTranslations;
-import com.sinthoras.visualprospecting.Tags;
-import com.sinthoras.visualprospecting.database.OreVeinPosition;
-import com.sinthoras.visualprospecting.database.ServerCache;
-import gregtech.api.interfaces.ITexture;
-import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicMachine;
-import gregtech.api.util.GT_Utility;
-import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Scanner;
 import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.sinthoras.visualprospecting.ServerTranslations;
+import com.sinthoras.visualprospecting.Tags;
+import com.sinthoras.visualprospecting.database.OreVeinPosition;
+import com.sinthoras.visualprospecting.database.ServerCache;
+
+import gregtech.api.interfaces.ITexture;
+import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_BasicMachine;
+import gregtech.api.util.GT_Utility;
+import gregtech.common.tileentities.machines.basic.GT_MetaTileEntity_Scanner;
 
 @Mixin(value = GT_MetaTileEntity_Scanner.class, remap = false)
 public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_BasicMachine {
@@ -29,11 +33,9 @@ public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_B
 
     @Inject(
             method = "checkRecipe",
-            at =
-                    @At(
-                            value = "INVOKE",
-                            target =
-                                    "Lgregtech/api/util/GT_Utility$ItemNBT;convertProspectionData(Lnet/minecraft/item/ItemStack;)V"),
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lgregtech/api/util/GT_Utility$ItemNBT;convertProspectionData(Lnet/minecraft/item/ItemStack;)V"),
             remap = false,
             require = 1,
             cancellable = true)
@@ -51,20 +53,24 @@ public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_B
 
             final NBTTagList bookPages = new NBTTagList();
 
-            final String frontPage = "Prospector report\n"
-                    + position + "\n\n"
-                    + "Fluids: " + numberOfUndergroundFluids + "\n\n"
-                    + "Ores within " + blockRadius + " blocks\n\n"
+            final String frontPage = "Prospector report\n" + position
+                    + "\n\n"
+                    + "Fluids: "
+                    + numberOfUndergroundFluids
+                    + "\n\n"
+                    + "Ores within "
+                    + blockRadius
+                    + " blocks\n\n"
                     + "Location is center of orevein\n\n"
                     + "Results are synchronized to your map";
             bookPages.appendTag(new NBTTagString(frontPage));
 
-            final List<OreVeinPosition> foundOreVeins =
-                    ServerCache.instance.prospectOreBlockRadius(dimensionId, blockX, blockZ, blockRadius);
+            final List<OreVeinPosition> foundOreVeins = ServerCache.instance
+                    .prospectOreBlockRadius(dimensionId, blockX, blockZ, blockRadius);
             if (foundOreVeins.isEmpty() == false) {
                 final int pageSize = 7;
-                final int numberOfPages =
-                        (foundOreVeins.size() + pageSize) / pageSize; // Equals to ceil((foundOreVeins.size())
+                final int numberOfPages = (foundOreVeins.size() + pageSize) / pageSize; // Equals to
+                                                                                        // ceil((foundOreVeins.size())
 
                 for (int pageNumber = 0; pageNumber < numberOfPages; pageNumber++) {
                     final StringBuilder pageString = new StringBuilder();
@@ -72,19 +78,14 @@ public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_B
                         final int veinId = pageNumber * pageSize + i;
                         if (veinId < foundOreVeins.size()) {
                             final OreVeinPosition oreVein = foundOreVeins.get(veinId);
-                            pageString
-                                    .append(oreVein.getBlockX())
-                                    .append(",")
-                                    .append(oreVein.getBlockZ())
-                                    .append(" - ")
-                                    .append(ServerTranslations.getEnglishLocalization(oreVein.veinType))
-                                    .append("\n");
+                            pageString.append(oreVein.getBlockX()).append(",").append(oreVein.getBlockZ()).append(" - ")
+                                    .append(ServerTranslations.getEnglishLocalization(oreVein.veinType)).append("\n");
                         }
                     }
-                    String pageCounter =
-                            numberOfPages > 1 ? String.format(" %d/%d", pageNumber + 1, numberOfPages) : "";
-                    NBTTagString pageTag =
-                            new NBTTagString(String.format("Ore Veins %s\n\n", pageCounter) + pageString);
+                    String pageCounter = numberOfPages > 1 ? String.format(" %d/%d", pageNumber + 1, numberOfPages)
+                            : "";
+                    NBTTagString pageTag = new NBTTagString(
+                            String.format("Ore Veins %s\n\n", pageCounter) + pageString);
                     bookPages.appendTag(pageTag);
                 }
             }
@@ -97,18 +98,23 @@ public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_B
                         9,
                         compound.getString(Tags.PROSPECTION_FLUIDS).split("\\|"));
 
-                final String fluidCoverPage = "Fluid notes\n\n"
-                        + "Prospects from NW to SE 576 chunks"
-                        + "(9 8x8 fields)\n around and gives min-max amount" + "\n\n"
-                        + "[1][2][3]" + "\n"
-                        + "[4][5][6]" + "\n"
-                        + "[7][8][9]" + "\n"
+                final String fluidCoverPage = "Fluid notes\n\n" + "Prospects from NW to SE 576 chunks"
+                        + "(9 8x8 fields)\n around and gives min-max amount"
+                        + "\n\n"
+                        + "[1][2][3]"
+                        + "\n"
+                        + "[4][5][6]"
+                        + "\n"
+                        + "[7][8][9]"
+                        + "\n"
                         + "\n"
                         + "[5] - Prospector in this 8x8 area";
                 bookPages.appendTag(new NBTTagString(fluidCoverPage));
 
-                String tFluidsPosStr = "X: " + Math.floorDiv(blockX, 16 * 8) * 16 * 8 + " Z: "
-                        + Math.floorDiv(blockZ, 16 * 8) * 16 * 8 + "\n";
+                String tFluidsPosStr = "X: " + Math.floorDiv(blockX, 16 * 8) * 16 * 8
+                        + " Z: "
+                        + Math.floorDiv(blockZ, 16 * 8) * 16 * 8
+                        + "\n";
                 int xOff = blockX - Math.floorDiv(blockX, 16 * 8) * 16 * 8;
                 xOff = xOff / 16;
                 int xOffRemain = 7 - xOff;
@@ -133,10 +139,13 @@ public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_B
                 for (; zOffRemain > 0; zOffRemain--) {
                     tFluidsPosStr = tFluidsPosStr.concat("--------\n");
                 }
-                tFluidsPosStr = tFluidsPosStr.concat("            X: " + (Math.floorDiv(blockX, 16 * 8) + 1) * 16 * 8
-                        + " Z: " + (Math.floorDiv(blockZ, 16 * 8) + 1) * 16 * 8); // +1 field to find bottomright of [5]
-                final String fluidsPage =
-                        "Corners of [5] are \n" + tFluidsPosStr + "\n" + "P - Prospector in 8x8 field";
+                tFluidsPosStr = tFluidsPosStr.concat(
+                        "            X: " + (Math.floorDiv(blockX, 16 * 8) + 1) * 16 * 8
+                                + " Z: "
+                                + (Math.floorDiv(blockZ, 16 * 8) + 1) * 16 * 8); // +1 field to find bottomright of [5]
+                final String fluidsPage = "Corners of [5] are \n" + tFluidsPosStr
+                        + "\n"
+                        + "P - Prospector in 8x8 field";
                 bookPages.appendTag(new NBTTagString(fluidsPage));
             }
 

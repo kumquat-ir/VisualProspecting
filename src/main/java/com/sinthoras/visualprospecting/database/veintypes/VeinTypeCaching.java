@@ -2,22 +2,26 @@ package com.sinthoras.visualprospecting.database.veintypes;
 
 import static com.sinthoras.visualprospecting.Utils.*;
 
+import java.io.File;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
+
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.SearchField;
+
 import com.github.bartimaeusnek.bartworks.system.material.Werkstoff;
 import com.github.bartimaeusnek.bartworks.system.oregen.BW_OreLayer;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.sinthoras.visualprospecting.Tags;
 import com.sinthoras.visualprospecting.Utils;
+
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Materials;
 import gregtech.common.GT_Worldgen_GT_Ore_Layer;
-import java.io.File;
-import java.util.*;
-import java.util.regex.Pattern;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.EnumChatFormatting;
 
 public class VeinTypeCaching implements Runnable {
 
@@ -44,19 +48,19 @@ public class VeinTypeCaching implements Runnable {
             }
             final Materials material = getGregTechMaterial(vein.mPrimaryMeta);
 
-            veinTypes.add(new VeinType(
-                    vein.mWorldGenName,
-                    new GregTechOreMaterialProvider(material),
-                    vein.mSize,
-                    vein.mPrimaryMeta,
-                    vein.mSecondaryMeta,
-                    vein.mBetweenMeta,
-                    vein.mSporadicMeta,
-                    Math.max(
-                            0,
-                            vein.mMinY - 6), // GregTech ore veins start at layer -1 and the blockY RNG adds another -5
-                    // offset
-                    Math.min(255, vein.mMaxY - 6)));
+            veinTypes.add(
+                    new VeinType(
+                            vein.mWorldGenName,
+                            new GregTechOreMaterialProvider(material),
+                            vein.mSize,
+                            vein.mPrimaryMeta,
+                            vein.mSecondaryMeta,
+                            vein.mBetweenMeta,
+                            vein.mSporadicMeta,
+                            Math.max(0, vein.mMinY - 6), // GregTech ore veins start at layer -1 and the blockY RNG adds
+                                                         // another -5
+                            // offset
+                            Math.min(255, vein.mMaxY - 6)));
         }
 
         if (isBartworksInstalled()) {
@@ -65,24 +69,24 @@ public class VeinTypeCaching implements Runnable {
                         ? new GregTechOreMaterialProvider(getGregTechMaterial((short) vein.mPrimaryMeta))
                         : new BartworksOreMaterialProvider(Werkstoff.werkstoffHashMap.get((short) vein.mPrimaryMeta));
 
-                veinTypes.add(new VeinType(
-                        vein.mWorldGenName,
-                        oreMaterialProvider,
-                        vein.mSize,
-                        (short) vein.mPrimaryMeta,
-                        (short) vein.mSecondaryMeta,
-                        (short) vein.mBetweenMeta,
-                        (short) vein.mSporadicMeta,
-                        Math.max(0, vein.mMinY),
-                        Math.min(255, vein.mMaxY)));
+                veinTypes.add(
+                        new VeinType(
+                                vein.mWorldGenName,
+                                oreMaterialProvider,
+                                vein.mSize,
+                                (short) vein.mPrimaryMeta,
+                                (short) vein.mSecondaryMeta,
+                                (short) vein.mBetweenMeta,
+                                (short) vein.mSporadicMeta,
+                                Math.max(0, vein.mMinY),
+                                Math.min(255, vein.mMaxY)));
             }
         }
 
         // Assign veinTypeIds for efficient storage
         loadVeinTypeStorageInfo();
 
-        final Optional<Short> maxVeinTypeIdOptional =
-                veinTypeStorageInfo.values().stream().max(Short::compare);
+        final Optional<Short> maxVeinTypeIdOptional = veinTypeStorageInfo.values().stream().max(Short::compare);
         short maxVeinTypeId = maxVeinTypeIdOptional.isPresent() ? maxVeinTypeIdOptional.get() : 0;
 
         for (VeinType veinType : veinTypes) {
@@ -120,10 +124,7 @@ public class VeinTypeCaching implements Runnable {
         final Materials material = GregTech_API.sGeneratedMaterials[metaId];
         if (material == null) {
             // Some materials are not registered in dev when their usage mod is not available.
-            return Materials.getAll().stream()
-                    .filter(m -> m.mMetaItemSubID == metaId)
-                    .findAny()
-                    .get();
+            return Materials.getAll().stream().filter(m -> m.mMetaItemSubID == metaId).findAny().get();
         }
         return material;
     }
@@ -170,10 +171,8 @@ public class VeinTypeCaching implements Runnable {
                         List<String> searchableStrings = veinType.getOreMaterialNames();
                         searchableStrings.add(I18n.format(veinType.name));
                         final boolean match = searchableStrings.stream()
-                                .map(EnumChatFormatting::getTextWithoutFormattingCodes)
-                                .map(String::toLowerCase)
-                                .anyMatch(searchableString ->
-                                        filterPattern.matcher(searchableString).find());
+                                .map(EnumChatFormatting::getTextWithoutFormattingCodes).map(String::toLowerCase)
+                                .anyMatch(searchableString -> filterPattern.matcher(searchableString).find());
 
                         veinType.setNEISearchHeighlight(match);
                     } else {

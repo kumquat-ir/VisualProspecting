@@ -1,11 +1,13 @@
 package com.sinthoras.visualprospecting.integration.journeymap.drawsteps;
 
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.integration.model.locations.DirtyChunkLocation;
 import java.awt.geom.Point2D;
+
 import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
+
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.integration.model.locations.DirtyChunkLocation;
 
 public class DirtyChunkDrawStep implements DrawStep {
 
@@ -16,31 +18,37 @@ public class DirtyChunkDrawStep implements DrawStep {
     }
 
     @Override
-    public void draw(
-            double draggedPixelX,
-            double draggedPixelY,
-            GridRenderer gridRenderer,
-            float drawScale,
-            double fontScale,
-            double rotation) {
+    public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
+            double fontScale, double rotation) {
         final int zoom = gridRenderer.getZoom();
         double blockSize = Math.pow(2, zoom);
-        final Point2D.Double blockAsPixel =
-                gridRenderer.getBlockPixelInGrid(dirtyChunkLocation.getBlockX(), dirtyChunkLocation.getBlockZ());
-        final Point2D.Double pixel =
-                new Point2D.Double(blockAsPixel.getX() + draggedPixelX, blockAsPixel.getY() + draggedPixelY);
+        final Point2D.Double blockAsPixel = gridRenderer
+                .getBlockPixelInGrid(dirtyChunkLocation.getBlockX(), dirtyChunkLocation.getBlockZ());
+        final Point2D.Double pixel = new Point2D.Double(
+                blockAsPixel.getX() + draggedPixelX,
+                blockAsPixel.getY() + draggedPixelY);
         float alpha = 0.5f;
         alpha *= alpha * 204;
         int color = dirtyChunkLocation.isDirty() ? 0xFF0000 : 0x00FFAA;
         DrawUtil.drawRectangle(
-                pixel.getX(), pixel.getY(), VP.chunkWidth * blockSize, VP.chunkDepth * blockSize, color, (int) alpha);
+                pixel.getX(),
+                pixel.getY(),
+                VP.chunkWidth * blockSize,
+                VP.chunkDepth * blockSize,
+                color,
+                (int) alpha);
 
         if (dirtyChunkLocation.isDirty()) {
             final int borderColor = 0xFFD700;
             final int borderAlpha = 204;
             DrawUtil.drawRectangle(pixel.getX(), pixel.getY(), 15 * blockSize, blockSize, borderColor, borderAlpha);
             DrawUtil.drawRectangle(
-                    pixel.getX() + 15 * blockSize, pixel.getY(), blockSize, 15 * blockSize, borderColor, borderAlpha);
+                    pixel.getX() + 15 * blockSize,
+                    pixel.getY(),
+                    blockSize,
+                    15 * blockSize,
+                    borderColor,
+                    borderAlpha);
             DrawUtil.drawRectangle(
                     pixel.getX() + 1 * blockSize,
                     pixel.getY() + 15 * blockSize,
@@ -49,7 +57,12 @@ public class DirtyChunkDrawStep implements DrawStep {
                     borderColor,
                     borderAlpha);
             DrawUtil.drawRectangle(
-                    pixel.getX(), pixel.getY() + 1 * blockSize, blockSize, 15 * blockSize, borderColor, borderAlpha);
+                    pixel.getX(),
+                    pixel.getY() + 1 * blockSize,
+                    blockSize,
+                    15 * blockSize,
+                    borderColor,
+                    borderAlpha);
 
             DrawUtil.drawLabel(
                     "D",

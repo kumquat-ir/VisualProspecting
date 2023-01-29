@@ -1,27 +1,34 @@
 package com.sinthoras.visualprospecting.integration.journeymap.drawsteps;
 
+import java.awt.geom.Point2D;
+import java.util.List;
+
+import journeymap.client.render.map.GridRenderer;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.client.lib.UtilsFX;
+
 import com.sinthoras.visualprospecting.Tags;
 import com.sinthoras.visualprospecting.integration.DrawUtils;
 import com.sinthoras.visualprospecting.integration.model.layers.ThaumcraftNodeLayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
 import com.sinthoras.visualprospecting.integration.model.locations.ThaumcraftNodeLocation;
-import java.awt.geom.Point2D;
-import java.util.List;
-import journeymap.client.render.map.GridRenderer;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.client.lib.UtilsFX;
 
 public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
 
-    private static final ResourceLocation markedTextureLocation =
-            new ResourceLocation(Tags.MODID, "textures/node_marked.png");
-    private static final ResourceLocation unmarkedTextureLocation =
-            new ResourceLocation(Tags.MODID, "textures/node_unmarked.png");
+    private static final ResourceLocation markedTextureLocation = new ResourceLocation(
+            Tags.MODID,
+            "textures/node_marked.png");
+    private static final ResourceLocation unmarkedTextureLocation = new ResourceLocation(
+            Tags.MODID,
+            "textures/node_unmarked.png");
 
     private final ThaumcraftNodeLocation thaumcraftNodeLocation;
 
@@ -34,19 +41,15 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
     }
 
     @Override
-    public void draw(
-            double draggedPixelX,
-            double draggedPixelY,
-            GridRenderer gridRenderer,
-            float drawScale,
-            double fontScale,
-            double rotation) {
+    public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
+            double fontScale, double rotation) {
         final double borderSize = 44 * fontScale;
         final double borderSizeHalf = borderSize / 2;
-        final Point2D.Double blockAsPixel = gridRenderer.getBlockPixelInGrid(
-                thaumcraftNodeLocation.getBlockX(), thaumcraftNodeLocation.getBlockZ());
-        final Point2D.Double pixel =
-                new Point2D.Double(blockAsPixel.getX() + draggedPixelX, blockAsPixel.getY() + draggedPixelY);
+        final Point2D.Double blockAsPixel = gridRenderer
+                .getBlockPixelInGrid(thaumcraftNodeLocation.getBlockX(), thaumcraftNodeLocation.getBlockZ());
+        final Point2D.Double pixel = new Point2D.Double(
+                blockAsPixel.getX() + draggedPixelX,
+                blockAsPixel.getY() + draggedPixelY);
         centerPixelX = pixel.getX();
         centerPixelY = pixel.getY();
         clickableRadiusPixelSquared = borderSizeHalf * borderSizeHalf;
@@ -63,7 +66,11 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
 
         final int aspectPixelDiameter = 32;
         DrawUtils.drawAspect(
-                pixel.getX(), pixel.getY(), aspectPixelDiameter, thaumcraftNodeLocation.getStrongestAspect(), 0);
+                pixel.getX(),
+                pixel.getY(),
+                aspectPixelDiameter,
+                thaumcraftNodeLocation.getStrongestAspect(),
+                0);
     }
 
     public List<String> getTooltip() {
@@ -102,8 +109,8 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
             maxTextWidth = (int) Math.ceil(maxTextWidth * 1.25f);
         }
 
-        final int aspectRows =
-                (thaumcraftNodeLocation.getAspects().size() + 4) / 5; // Equivalent to Math.ceil(size / 5)
+        final int aspectRows = (thaumcraftNodeLocation.getAspects().size() + 4) / 5; // Equivalent to Math.ceil(size /
+                                                                                     // 5)
         final int aspectColumns = Math.min(thaumcraftNodeLocation.getAspects().size(), 5);
 
         int pixelX = mouseX + 12;
@@ -125,7 +132,12 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
         // Draw background
         final int backgroundColor = 0xF0100010;
         DrawUtils.drawGradientRect(
-                pixelX - 3, pixelY - 4, pixelX + tooltipWidth + 3, pixelY - 3, backgroundColor, backgroundColor);
+                pixelX - 3,
+                pixelY - 4,
+                pixelX + tooltipWidth + 3,
+                pixelY - 3,
+                backgroundColor,
+                backgroundColor);
         DrawUtils.drawGradientRect(
                 pixelX - 3,
                 pixelY + tooltipHeight + 3,
@@ -141,7 +153,12 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
                 backgroundColor,
                 backgroundColor);
         DrawUtils.drawGradientRect(
-                pixelX - 4, pixelY - 3, pixelX - 3, pixelY + tooltipHeight + 3, backgroundColor, backgroundColor);
+                pixelX - 4,
+                pixelY - 3,
+                pixelX - 3,
+                pixelY + tooltipHeight + 3,
+                backgroundColor,
+                backgroundColor);
         DrawUtils.drawGradientRect(
                 pixelX + tooltipWidth + 3,
                 pixelY - 3,
@@ -153,7 +170,12 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
         int verdunGreen = 0x505000FF;
         int borderColor = 0x5028007F;
         DrawUtils.drawGradientRect(
-                pixelX - 3, pixelY - 3 + 1, pixelX - 3 + 1, pixelY + tooltipHeight + 3 - 1, verdunGreen, borderColor);
+                pixelX - 3,
+                pixelY - 3 + 1,
+                pixelX - 3 + 1,
+                pixelY + tooltipHeight + 3 - 1,
+                verdunGreen,
+                borderColor);
         DrawUtils.drawGradientRect(
                 pixelX + tooltipWidth + 2,
                 pixelY - 3 + 1,
@@ -162,7 +184,12 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
                 verdunGreen,
                 borderColor);
         DrawUtils.drawGradientRect(
-                pixelX - 3, pixelY - 3, pixelX + tooltipWidth + 3, pixelY - 3 + 1, verdunGreen, verdunGreen);
+                pixelX - 3,
+                pixelY - 3,
+                pixelX + tooltipWidth + 3,
+                pixelY - 3 + 1,
+                verdunGreen,
+                verdunGreen);
         DrawUtils.drawGradientRect(
                 pixelX - 3,
                 pixelY + tooltipHeight + 2,
@@ -184,7 +211,10 @@ public class ThaumcraftNodeDrawStep implements ClickableDrawStep {
             offset += 12;
             final int nodeDescriptonWidth = (int) Math.ceil(fontRenderer.getStringWidth(nodeDescription) * 1.1f);
             fontRenderer.drawString(
-                    nodeDescription, pixelX + nodeDescriptonWidth - titleWidth, pixelY + offset, 0xFFFFFFFF);
+                    nodeDescription,
+                    pixelX + nodeDescriptonWidth - titleWidth,
+                    pixelY + offset,
+                    0xFFFFFFFF);
 
             final int deleteHintWidth = (int) Math.ceil(fontRenderer.getStringWidth(deleteHint) * 1.1f);
             fontRenderer.drawString(

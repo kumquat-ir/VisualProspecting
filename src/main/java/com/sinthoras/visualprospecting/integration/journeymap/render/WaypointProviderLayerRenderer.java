@@ -1,12 +1,14 @@
 package com.sinthoras.visualprospecting.integration.journeymap.render;
 
-import com.sinthoras.visualprospecting.integration.journeymap.drawsteps.ClickableDrawStep;
-import com.sinthoras.visualprospecting.integration.model.layers.WaypointProviderManager;
-import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import net.minecraft.client.gui.FontRenderer;
+
+import com.sinthoras.visualprospecting.integration.journeymap.drawsteps.ClickableDrawStep;
+import com.sinthoras.visualprospecting.integration.model.layers.WaypointProviderManager;
+import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
 public abstract class WaypointProviderLayerRenderer extends LayerRenderer {
 
@@ -58,8 +60,7 @@ public abstract class WaypointProviderLayerRenderer extends LayerRenderer {
                 if (hoveredDrawStep.getLocationProvider().isActiveAsWaypoint()) {
                     manager.clearActiveWaypoint();
                 } else {
-                    manager.setActiveWaypoint(
-                            hoveredDrawStep.getLocationProvider().toWaypoint());
+                    manager.setActiveWaypoint(hoveredDrawStep.getLocationProvider().toWaypoint());
                 }
             }
             return true;
@@ -74,8 +75,8 @@ public abstract class WaypointProviderLayerRenderer extends LayerRenderer {
         return null;
     }
 
-    public void drawCustomTooltip(
-            FontRenderer fontRenderer, int mouseX, int mouseY, int displayWidth, int displayHeight) {
+    public void drawCustomTooltip(FontRenderer fontRenderer, int mouseX, int mouseY, int displayWidth,
+            int displayHeight) {
         if (hoveredDrawStep != null) {
             hoveredDrawStep.drawTooltip(fontRenderer, mouseX, mouseY, displayWidth, displayHeight);
         }

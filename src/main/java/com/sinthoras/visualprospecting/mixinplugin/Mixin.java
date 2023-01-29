@@ -2,9 +2,10 @@ package com.sinthoras.visualprospecting.mixinplugin;
 
 import static com.sinthoras.visualprospecting.mixinplugin.TargetedMod.*;
 
-import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import java.util.Arrays;
 import java.util.List;
+
+import cpw.mods.fml.relauncher.FMLLaunchHandler;
 
 public enum Mixin {
 
@@ -57,10 +58,8 @@ public enum Mixin {
     }
 
     public boolean shouldLoad(List<TargetedMod> loadedMods) {
-        return (side == Side.BOTH
-                        || side == Side.SERVER && FMLLaunchHandler.side().isServer()
-                        || side == Side.CLIENT && FMLLaunchHandler.side().isClient())
-                && loadedMods.containsAll(targetedMods);
+        return (side == Side.BOTH || side == Side.SERVER && FMLLaunchHandler.side().isServer()
+                || side == Side.CLIENT && FMLLaunchHandler.side().isClient()) && loadedMods.containsAll(targetedMods);
     }
 }
 

@@ -1,14 +1,16 @@
 package com.sinthoras.visualprospecting.database;
 
+import java.util.Arrays;
+
+import net.minecraftforge.fluids.Fluid;
+
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
-import java.util.Arrays;
-import net.minecraftforge.fluids.Fluid;
 
 public class UndergroundFluidPosition {
 
-    public static final int BYTES =
-            (3 + 1 + VP.undergroundFluidSizeChunkX * VP.undergroundFluidSizeChunkZ) * Integer.BYTES;
+    public static final int BYTES = (3 + 1 + VP.undergroundFluidSizeChunkX * VP.undergroundFluidSizeChunkZ)
+            * Integer.BYTES;
 
     public final int dimensionId;
     public final int chunkX;
@@ -65,8 +67,7 @@ public class UndergroundFluidPosition {
     }
 
     public boolean equals(UndergroundFluidPosition other) {
-        return dimensionId == other.dimensionId
-                && chunkX == other.chunkX
+        return dimensionId == other.dimensionId && chunkX == other.chunkX
                 && chunkZ == other.chunkZ
                 && fluid == other.fluid
                 && Arrays.deepEquals(chunks, other.chunks);

@@ -1,23 +1,29 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.client.lib.UtilsFX;
+
 import com.sinthoras.visualprospecting.Tags;
 import com.sinthoras.visualprospecting.integration.DrawUtils;
 import com.sinthoras.visualprospecting.integration.model.layers.ThaumcraftNodeLayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
 import com.sinthoras.visualprospecting.integration.model.locations.ThaumcraftNodeLocation;
-import javax.annotation.Nullable;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.client.lib.UtilsFX;
 
 public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
 
-    private static final ResourceLocation markedTextureLocation =
-            new ResourceLocation(Tags.MODID, "textures/node_marked.png");
-    private static final ResourceLocation unmarkedTextureLocation =
-            new ResourceLocation(Tags.MODID, "textures/node_unmarked.png");
+    private static final ResourceLocation markedTextureLocation = new ResourceLocation(
+            Tags.MODID,
+            "textures/node_marked.png");
+    private static final ResourceLocation unmarkedTextureLocation = new ResourceLocation(
+            Tags.MODID,
+            "textures/node_unmarked.png");
 
     private final ThaumcraftNodeLocation thaumcraftNodeLocation;
 
@@ -40,7 +46,9 @@ public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
 
         GL11.glPushMatrix();
         GL11.glTranslated(
-                thaumcraftNodeLocation.getBlockX() - cameraX, thaumcraftNodeLocation.getBlockZ() - cameraZ, 0);
+                thaumcraftNodeLocation.getBlockX() - cameraX,
+                thaumcraftNodeLocation.getBlockZ() - cameraZ,
+                0);
         GL11.glScaled(1 / scaleForGui, 1 / scaleForGui, 1);
 
         final int alpha = 204;
@@ -83,7 +91,8 @@ public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
 
         int maxTextWidth = Math.max(
                 Math.max(
-                        gui.mc.fontRenderer.getStringWidth(title), gui.mc.fontRenderer.getStringWidth(nodeDescription)),
+                        gui.mc.fontRenderer.getStringWidth(title),
+                        gui.mc.fontRenderer.getStringWidth(nodeDescription)),
                 gui.mc.fontRenderer.getStringWidth(deleteHint));
         if (isWaypoint) {
             maxTextWidth = Math.max(maxTextWidth, gui.mc.fontRenderer.getStringWidth(asWaypoint));
@@ -92,8 +101,8 @@ public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
             maxTextWidth = (int) Math.ceil(maxTextWidth * 1.25f);
         }
 
-        final int aspectRows =
-                (thaumcraftNodeLocation.getAspects().size() + 4) / 5; // Equivalent to Math.ceil(size / 5)
+        final int aspectRows = (thaumcraftNodeLocation.getAspects().size() + 4) / 5; // Equivalent to Math.ceil(size /
+                                                                                     // 5)
         final int aspectColumns = Math.min(thaumcraftNodeLocation.getAspects().size(), 5);
 
         int pixelX = (int) (mouseX + 12);
@@ -112,7 +121,12 @@ public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
         // Draw background
         final int backgroundColor = 0xF0100010;
         DrawUtils.drawGradientRect(
-                pixelX - 3, pixelY - 4, pixelX + tooltipWidth + 3, pixelY - 3, backgroundColor, backgroundColor);
+                pixelX - 3,
+                pixelY - 4,
+                pixelX + tooltipWidth + 3,
+                pixelY - 3,
+                backgroundColor,
+                backgroundColor);
         DrawUtils.drawGradientRect(
                 pixelX - 3,
                 pixelY + tooltipHeight + 3,
@@ -128,7 +142,12 @@ public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
                 backgroundColor,
                 backgroundColor);
         DrawUtils.drawGradientRect(
-                pixelX - 4, pixelY - 3, pixelX - 3, pixelY + tooltipHeight + 3, backgroundColor, backgroundColor);
+                pixelX - 4,
+                pixelY - 3,
+                pixelX - 3,
+                pixelY + tooltipHeight + 3,
+                backgroundColor,
+                backgroundColor);
         DrawUtils.drawGradientRect(
                 pixelX + tooltipWidth + 3,
                 pixelY - 3,
@@ -150,7 +169,10 @@ public class ThaumcraftNodeRenderStep implements InteractableRenderStep {
             offset += 12;
             final int nodeDescriptonWidth = (int) Math.ceil(gui.mc.fontRenderer.getStringWidth(nodeDescription) * 1.1f);
             gui.mc.fontRenderer.drawString(
-                    nodeDescription, pixelX + nodeDescriptonWidth - titleWidth, pixelY + offset, 0xFFFFFFFF);
+                    nodeDescription,
+                    pixelX + nodeDescriptonWidth - titleWidth,
+                    pixelY + offset,
+                    0xFFFFFFFF);
 
             final int deleteHintWidth = (int) Math.ceil(gui.mc.fontRenderer.getStringWidth(deleteHint) * 1.1f);
             gui.mc.fontRenderer.drawString(

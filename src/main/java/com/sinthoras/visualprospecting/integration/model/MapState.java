@@ -2,15 +2,17 @@ package com.sinthoras.visualprospecting.integration.model;
 
 import static com.sinthoras.visualprospecting.Utils.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.integration.model.buttons.*;
 import com.sinthoras.visualprospecting.integration.model.layers.*;
 import com.sinthoras.visualprospecting.integration.tcnodetracker.NTNodeTrackerWaypointManager;
 import com.sinthoras.visualprospecting.integration.xaerominimap.XaeroMiniMapState;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MapState {
+
     public static final MapState instance = new MapState();
 
     public final List<ButtonManager> buttons = new ArrayList<>();

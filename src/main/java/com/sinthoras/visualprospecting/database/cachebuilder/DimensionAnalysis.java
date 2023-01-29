@@ -1,13 +1,5 @@
 package com.sinthoras.visualprospecting.database.cachebuilder;
 
-import com.sinthoras.visualprospecting.Config;
-import com.sinthoras.visualprospecting.Utils;
-import com.sinthoras.visualprospecting.VP;
-import com.sinthoras.visualprospecting.database.ServerCache;
-import com.sinthoras.visualprospecting.database.veintypes.VeinType;
-import io.xol.enklume.MinecraftRegion;
-import io.xol.enklume.MinecraftWorld;
-import io.xol.enklume.nbt.NBTCompound;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +7,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
+
+import com.sinthoras.visualprospecting.Config;
+import com.sinthoras.visualprospecting.Utils;
+import com.sinthoras.visualprospecting.VP;
+import com.sinthoras.visualprospecting.database.ServerCache;
+import com.sinthoras.visualprospecting.database.veintypes.VeinType;
+
+import io.xol.enklume.MinecraftRegion;
+import io.xol.enklume.MinecraftWorld;
+import io.xol.enklume.nbt.NBTCompound;
 
 public class DimensionAnalysis {
 
@@ -25,14 +27,14 @@ public class DimensionAnalysis {
     }
 
     private interface IChunkHandler {
+
         void processChunk(NBTCompound root, int chunkX, int chunkZ);
     }
 
     public void processMinecraftWorld(MinecraftWorld world) throws IOException {
         final Map<Long, Integer> veinBlockY = new ConcurrentHashMap<>();
         final List<File> regionFiles = world.getAllRegionFiles(dimensionId);
-        final long dimensionSizeMB =
-                regionFiles.stream().mapToLong(File::length).sum() >> 20;
+        final long dimensionSizeMB = regionFiles.stream().mapToLong(File::length).sum() >> 20;
 
         if (dimensionSizeMB <= Config.maxDimensionSizeMBForFastScanning) {
             AnalysisProgressTracker.announceFastDimension(dimensionId);
@@ -46,12 +48,14 @@ public class DimensionAnalysis {
                     chunk.processMinecraftChunk(root);
 
                     if (chunk.matchesSingleVein()) {
-                        ServerCache.instance.notifyOreVeinGeneration(
-                                dimensionId, chunkX, chunkZ, chunk.getMatchedVein());
+                        ServerCache.instance
+                                .notifyOreVeinGeneration(dimensionId, chunkX, chunkZ, chunk.getMatchedVein());
                         veinBlockY.put(Utils.chunkCoordsToKey(chunkX, chunkZ), chunk.getVeinBlockY());
                     } else {
-                        final DetailedChunkAnalysis detailedChunk =
-                                new DetailedChunkAnalysis(dimensionId, chunkX, chunkZ);
+                        final DetailedChunkAnalysis detailedChunk = new DetailedChunkAnalysis(
+                                dimensionId,
+                                chunkX,
+                                chunkZ);
                         detailedChunk.processMinecraftChunk(root);
                         chunksForSecondIdentificationPass.put(Utils.chunkCoordsToKey(chunkX, chunkZ), detailedChunk);
                     }
@@ -60,8 +64,8 @@ public class DimensionAnalysis {
 
             chunksForSecondIdentificationPass.values().parallelStream().forEach(chunk -> {
                 chunk.cleanUpWithNeighbors(veinBlockY);
-                ServerCache.instance.notifyOreVeinGeneration(
-                        dimensionId, chunk.chunkX, chunk.chunkZ, chunk.getMatchedVein());
+                ServerCache.instance
+                        .notifyOreVeinGeneration(dimensionId, chunk.chunkX, chunk.chunkZ, chunk.getMatchedVein());
             });
         } else {
             AnalysisProgressTracker.announceSlowDimension(dimensionId);
@@ -73,8 +77,8 @@ public class DimensionAnalysis {
                     chunk.processMinecraftChunk(root);
 
                     if (chunk.matchesSingleVein()) {
-                        ServerCache.instance.notifyOreVeinGeneration(
-                                dimensionId, chunkX, chunkZ, chunk.getMatchedVein());
+                        ServerCache.instance
+                                .notifyOreVeinGeneration(dimensionId, chunkX, chunkZ, chunk.getMatchedVein());
                         veinBlockY.put(Utils.chunkCoordsToKey(chunkX, chunkZ), chunk.getVeinBlockY());
                     }
                 });
@@ -83,8 +87,10 @@ public class DimensionAnalysis {
             regionFiles.parallelStream().forEach(regionFile -> {
                 executeForEachGeneratedOreChunk(regionFile, (root, chunkX, chunkZ) -> {
                     if (ServerCache.instance.getOreVein(dimensionId, chunkX, chunkZ).veinType == VeinType.NO_VEIN) {
-                        final DetailedChunkAnalysis detailedChunk =
-                                new DetailedChunkAnalysis(dimensionId, chunkX, chunkZ);
+                        final DetailedChunkAnalysis detailedChunk = new DetailedChunkAnalysis(
+                                dimensionId,
+                                chunkX,
+                                chunkZ);
                         detailedChunk.processMinecraftChunk(root);
                         detailedChunk.cleanUpWithNeighbors(veinBlockY);
                         ServerCache.instance.notifyOreVeinGeneration(
@@ -117,8 +123,7 @@ public class DimensionAnalysis {
                     if (chunkX == Utils.mapToCenterOreChunkCoord(chunkX)
                             && chunkZ == Utils.mapToCenterOreChunkCoord(chunkZ)) {
                         // Helpful read about 'root' structure: https://minecraft.fandom.com/wiki/Chunk_format
-                        final NBTCompound root =
-                                region.getChunk(localChunkX, localChunkZ).getRootTag();
+                        final NBTCompound root = region.getChunk(localChunkX, localChunkZ).getRootTag();
 
                         // root == null occurs when a chunk is not yet generated
                         if (root != null) {

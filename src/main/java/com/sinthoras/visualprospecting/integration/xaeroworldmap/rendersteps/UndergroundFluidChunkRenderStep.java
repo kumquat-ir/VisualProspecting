@@ -1,15 +1,19 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.client.gui.GuiScreen;
+
+import org.lwjgl.opengl.GL11;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.integration.DrawUtils;
 import com.sinthoras.visualprospecting.integration.model.locations.UndergroundFluidChunkLocation;
-import javax.annotation.Nullable;
-import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.opengl.GL11;
 
 public class UndergroundFluidChunkRenderStep implements RenderStep {
+
     private final UndergroundFluidChunkLocation undergroundFluidChunkLocation;
 
     public UndergroundFluidChunkRenderStep(UndergroundFluidChunkLocation location) {
@@ -34,7 +38,7 @@ public class UndergroundFluidChunkRenderStep implements RenderStep {
                     0);
 
             float alpha = ((float) (undergroundFluidChunkLocation.getFluidAmount()
-                            - undergroundFluidChunkLocation.getMinAmountInField()))
+                    - undergroundFluidChunkLocation.getMinAmountInField()))
                     / (undergroundFluidChunkLocation.getMaxAmountInField()
                             - undergroundFluidChunkLocation.getMinAmountInField()
                             + 1);

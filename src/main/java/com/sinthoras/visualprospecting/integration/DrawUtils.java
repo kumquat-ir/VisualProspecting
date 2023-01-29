@@ -1,6 +1,7 @@
 package com.sinthoras.visualprospecting.integration;
 
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -8,14 +9,16 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.client.lib.UtilsFX;
 
 public class DrawUtils {
 
-    public static void drawGradientRect(
-            double minPixelX, double minPixelY, double maxPixelX, double maxPixelY, double z, int colorA, int colorB) {
+    public static void drawGradientRect(double minPixelX, double minPixelY, double maxPixelX, double maxPixelY,
+            double z, int colorA, int colorB) {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -47,13 +50,13 @@ public class DrawUtils {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    public static void drawGradientRect(
-            double minPixelX, double minPixelY, double maxPixelX, double maxPixelY, int colorA, int colorB) {
+    public static void drawGradientRect(double minPixelX, double minPixelY, double maxPixelX, double maxPixelY,
+            int colorA, int colorB) {
         drawGradientRect(minPixelX, minPixelY, maxPixelX, maxPixelY, 300, colorA, colorB);
     }
 
-    public static void drawQuad(
-            ResourceLocation texture, double x, double y, double width, double height, int color, float alpha) {
+    public static void drawQuad(ResourceLocation texture, double x, double y, double width, double height, int color,
+            float alpha) {
 
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
@@ -93,8 +96,8 @@ public class DrawUtils {
         tessellator.draw();
     }
 
-    public static void drawAspect(
-            double centerPixelX, double centerPixelY, double pixelSize, Aspect aspect, int amount) {
+    public static void drawAspect(double centerPixelX, double centerPixelY, double pixelSize, Aspect aspect,
+            int amount) {
         final int textureSize = 16;
 
         GL11.glPushMatrix();
@@ -114,8 +117,8 @@ public class DrawUtils {
         GL11.glPopMatrix();
     }
 
-    public static void drawSimpleLabel(
-            GuiScreen gui, String text, double textX, double textY, int fontColor, int bgColor, boolean centered) {
+    public static void drawSimpleLabel(GuiScreen gui, String text, double textX, double textY, int fontColor,
+            int bgColor, boolean centered) {
         GL11.glPushMatrix();
         double dTextX = textX - (double) (int) textX;
         double dTextY = textY - (double) (int) textY;
@@ -136,8 +139,8 @@ public class DrawUtils {
         GL11.glPopMatrix();
     }
 
-    public static void drawSimpleTooltip(
-            GuiScreen gui, List<String> text, double x, double y, int fontColor, int bgColor) {
+    public static void drawSimpleTooltip(GuiScreen gui, List<String> text, double x, double y, int fontColor,
+            int bgColor) {
         if (text.isEmpty()) return;
 
         int maxTextWidth = 0;
@@ -169,8 +172,7 @@ public class DrawUtils {
     }
 
     public static float[] floats(int rgb) {
-        return new float[] {
-            (float) (rgb >> 16 & 255) / 255.0F, (float) (rgb >> 8 & 255) / 255.0F, (float) (rgb & 255) / 255.0F
-        };
+        return new float[] { (float) (rgb >> 16 & 255) / 255.0F, (float) (rgb >> 8 & 255) / 255.0F,
+                (float) (rgb & 255) / 255.0F };
     }
 }

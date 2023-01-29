@@ -1,8 +1,9 @@
 package com.sinthoras.visualprospecting.integration.voxelmap;
 
+import java.lang.reflect.Method;
+
 import com.sinthoras.visualprospecting.VP;
 import com.thevoxelbox.voxelmap.interfaces.IWaypointManager;
-import java.lang.reflect.Method;
 
 public class IWaypointManagerReflection {
 

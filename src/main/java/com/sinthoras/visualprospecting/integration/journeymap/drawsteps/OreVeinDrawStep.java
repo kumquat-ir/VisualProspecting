@@ -1,24 +1,28 @@
 package com.sinthoras.visualprospecting.integration.journeymap.drawsteps;
 
-import com.sinthoras.visualprospecting.Config;
-import com.sinthoras.visualprospecting.Tags;
-import com.sinthoras.visualprospecting.integration.DrawUtils;
-import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
-import com.sinthoras.visualprospecting.integration.model.locations.OreVeinLocation;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
+import com.sinthoras.visualprospecting.Config;
+import com.sinthoras.visualprospecting.Tags;
+import com.sinthoras.visualprospecting.integration.DrawUtils;
+import com.sinthoras.visualprospecting.integration.model.locations.IWaypointAndLocationProvider;
+import com.sinthoras.visualprospecting.integration.model.locations.OreVeinLocation;
+
 public class OreVeinDrawStep implements ClickableDrawStep {
 
-    private static final ResourceLocation depletedTextureLocation =
-            new ResourceLocation(Tags.MODID, "textures/depleted.png");
+    private static final ResourceLocation depletedTextureLocation = new ResourceLocation(
+            Tags.MODID,
+            "textures/depleted.png");
 
     private final OreVeinLocation oreVeinLocation;
 
@@ -66,19 +70,15 @@ public class OreVeinDrawStep implements ClickableDrawStep {
     }
 
     @Override
-    public void draw(
-            double draggedPixelX,
-            double draggedPixelY,
-            GridRenderer gridRenderer,
-            float drawScale,
-            double fontScale,
-            double rotation) {
+    public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
+            double fontScale, double rotation) {
         iconSize = 32 * fontScale;
         final double iconSizeHalf = iconSize / 2;
-        final Point2D.Double blockAsPixel =
-                gridRenderer.getBlockPixelInGrid(oreVeinLocation.getBlockX(), oreVeinLocation.getBlockZ());
-        final Point2D.Double pixel =
-                new Point2D.Double(blockAsPixel.getX() + draggedPixelX, blockAsPixel.getY() + draggedPixelY);
+        final Point2D.Double blockAsPixel = gridRenderer
+                .getBlockPixelInGrid(oreVeinLocation.getBlockX(), oreVeinLocation.getBlockZ());
+        final Point2D.Double pixel = new Point2D.Double(
+                blockAsPixel.getX() + draggedPixelX,
+                blockAsPixel.getY() + draggedPixelY);
 
         if (gridRenderer.getZoom() >= Config.minZoomLevelForOreLabel && oreVeinLocation.isDepleted() == false) {
             final int fontColor = oreVeinLocation.drawSearchHighlight() ? 0xFFFFFF : 0x7F7F7F;
@@ -123,9 +123,19 @@ public class OreVeinDrawStep implements ClickableDrawStep {
             final int borderAlpha = 204;
             final int color = 0xFFD700;
             DrawUtil.drawRectangle(
-                    iconX - thickness, iconY - thickness, iconSize + thickness, thickness, color, borderAlpha);
+                    iconX - thickness,
+                    iconY - thickness,
+                    iconSize + thickness,
+                    thickness,
+                    color,
+                    borderAlpha);
             DrawUtil.drawRectangle(
-                    iconX + iconSize, iconY - thickness, thickness, iconSize + thickness, color, borderAlpha);
+                    iconX + iconSize,
+                    iconY - thickness,
+                    thickness,
+                    iconSize + thickness,
+                    color,
+                    borderAlpha);
             DrawUtil.drawRectangle(iconX, iconY + iconSize, iconSize + thickness, thickness, color, borderAlpha);
             DrawUtil.drawRectangle(iconX - thickness, iconY, thickness, iconSize + thickness, color, borderAlpha);
         }

@@ -3,15 +3,17 @@ package com.sinthoras.visualprospecting.integration.journeymap;
 import static com.sinthoras.visualprospecting.Utils.isTCNodeTrackerInstalled;
 import static com.sinthoras.visualprospecting.integration.journeymap.Reflection.getJourneyMapGridRenderer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import journeymap.client.render.map.GridRenderer;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.integration.journeymap.buttons.*;
 import com.sinthoras.visualprospecting.integration.journeymap.render.*;
 import com.sinthoras.visualprospecting.integration.journeymap.waypoints.OreVeinWaypointManager;
 import com.sinthoras.visualprospecting.integration.journeymap.waypoints.ThaumcraftNodeWaypointManager;
 import com.sinthoras.visualprospecting.integration.journeymap.waypoints.WaypointManager;
-import java.util.ArrayList;
-import java.util.List;
-import journeymap.client.render.map.GridRenderer;
 
 public class JourneyMapState {
 

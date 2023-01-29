@@ -1,9 +1,10 @@
 package com.sinthoras.visualprospecting;
 
-import com.sinthoras.visualprospecting.database.veintypes.VeinType;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fluids.Fluid;
+
+import com.sinthoras.visualprospecting.database.veintypes.VeinType;
 
 // Backup translations for server side lookups only
 public class ServerTranslations {
@@ -82,16 +83,9 @@ public class ServerTranslations {
     }
 
     /*
-    Copy the relevant content into a file 'data.dat' and run the following python script to generate the switch-case:
-
-    with open("data.dat") as f:
-    lines = f.readlines()
-    for line in lines:
-        if line is not "\n":
-            key, value = line.split("=")
-            value = value[:-1]
-            print("case \"" + key + "\":")
-            print("    return \"" + value + "\";")
+     * Copy the relevant content into a file 'data.dat' and run the following python script to generate the switch-case:
+     * with open("data.dat") as f: lines = f.readlines() for line in lines: if line is not "\n": key, value =
+     * line.split("=") value = value[:-1] print("case \"" + key + "\":") print("    return \"" + value + "\";")
      */
     public static String getEnglishLocalization(VeinType veinType) {
         if (MinecraftServer.getServer().isSinglePlayer()) {

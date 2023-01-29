@@ -1,23 +1,26 @@
 package com.sinthoras.visualprospecting.network;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.ClientCache;
 import com.sinthoras.visualprospecting.database.OreVeinPosition;
 import com.sinthoras.visualprospecting.database.TransferCache;
 import com.sinthoras.visualprospecting.database.UndergroundFluidPosition;
 import com.sinthoras.visualprospecting.database.veintypes.VeinTypeCaching;
+
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class ProspectionSharing implements IMessage {
 
@@ -58,8 +61,7 @@ public class ProspectionSharing implements IMessage {
     }
 
     public int getBytes() {
-        return BYTES_OVERHEAD
-                + VeinTypeCaching.getLongesOreNameLength() * oreVeins.size()
+        return BYTES_OVERHEAD + VeinTypeCaching.getLongesOreNameLength() * oreVeins.size()
                 + UndergroundFluidPosition.BYTES * undergroundFluids.size();
     }
 
@@ -75,8 +77,13 @@ public class ProspectionSharing implements IMessage {
             final int chunkZ = buf.readInt();
             final boolean isDepleted = buf.readByte() > 0;
             final String oreVeinName = ByteBufUtils.readUTF8String(buf);
-            oreVeins.add(new OreVeinPosition(
-                    dimensionId, chunkX, chunkZ, VeinTypeCaching.getVeinType(oreVeinName), isDepleted));
+            oreVeins.add(
+                    new OreVeinPosition(
+                            dimensionId,
+                            chunkX,
+                            chunkZ,
+                            VeinTypeCaching.getVeinType(oreVeinName),
+                            isDepleted));
         }
 
         final int numberOfUndergroundFluids = buf.readInt();
@@ -147,7 +154,9 @@ public class ProspectionSharing implements IMessage {
             undergroundFluids.get(player).addAll(message.undergroundFluids);
             if (message.isLastMessage) {
                 TransferCache.instance.addClientProspectionData(
-                        player.getPersistentID().toString(), oreVeins.get(player), undergroundFluids.get(player));
+                        player.getPersistentID().toString(),
+                        oreVeins.get(player),
+                        undergroundFluids.get(player));
                 oreVeins.remove(player);
                 undergroundFluids.remove(player);
             }

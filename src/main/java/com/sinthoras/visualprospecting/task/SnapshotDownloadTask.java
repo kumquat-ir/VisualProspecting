@@ -1,16 +1,18 @@
 package com.sinthoras.visualprospecting.task;
 
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.OreVeinPosition;
 import com.sinthoras.visualprospecting.database.TransferCache;
 import com.sinthoras.visualprospecting.database.UndergroundFluidPosition;
 import com.sinthoras.visualprospecting.network.ProspectionSharing;
-import java.util.List;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 
 public class SnapshotDownloadTask implements ITask {
 
@@ -48,7 +50,8 @@ public class SnapshotDownloadTask implements ITask {
 
             if (listsEmpty()) {
                 final IChatComponent notification = new ChatComponentTranslation(
-                        "item.visualprospecting.prospectorslog.reading.end", player.getDisplayName());
+                        "item.visualprospecting.prospectorslog.reading.end",
+                        player.getDisplayName());
                 notification.getChatStyle().setItalic(true);
                 notification.getChatStyle().setColor(EnumChatFormatting.GRAY);
                 player.addChatMessage(notification);

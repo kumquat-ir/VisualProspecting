@@ -1,5 +1,10 @@
 package com.sinthoras.visualprospecting.hooks;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.world.WorldEvent;
+
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.ClientCache;
@@ -7,10 +12,6 @@ import com.sinthoras.visualprospecting.database.ServerCache;
 import com.sinthoras.visualprospecting.database.WorldIdHandler;
 import com.sinthoras.visualprospecting.network.WorldIdNotification;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.world.WorldEvent;
 
 public class HooksEventBus {
 

@@ -1,21 +1,24 @@
 package com.sinthoras.visualprospecting.integration.model.locations;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+
+import org.lwjgl.input.Keyboard;
+
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.ClientCache;
 import com.sinthoras.visualprospecting.database.OreVeinPosition;
 import com.sinthoras.visualprospecting.integration.model.waypoints.Waypoint;
-import java.util.List;
-import java.util.stream.Collectors;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import org.lwjgl.input.Keyboard;
 
 public class OreVeinLocation implements IWaypointAndLocationProvider {
 
     private static final String depletedHint = EnumChatFormatting.RED + I18n.format("visualprospecting.depleted");
-    private static final String activeWaypointHint =
-            EnumChatFormatting.GOLD + I18n.format("visualprospecting.iswaypoint");
+    private static final String activeWaypointHint = EnumChatFormatting.GOLD
+            + I18n.format("visualprospecting.iswaypoint");
     private static final String toggleDepletedHint = EnumChatFormatting.DARK_GRAY
             + I18n.format("visualprospecting.node.deletehint", Keyboard.getKeyName(VP.keyAction.getKeyCode()));
 
@@ -29,8 +32,7 @@ public class OreVeinLocation implements IWaypointAndLocationProvider {
         this.oreVeinPosition = oreVeinPosition;
         name = EnumChatFormatting.WHITE + I18n.format(oreVeinPosition.veinType.name);
         materialNames = oreVeinPosition.veinType.getOreMaterialNames().stream()
-                .map(materialName -> EnumChatFormatting.GRAY + materialName)
-                .collect(Collectors.toList());
+                .map(materialName -> EnumChatFormatting.GRAY + materialName).collect(Collectors.toList());
     }
 
     @Override

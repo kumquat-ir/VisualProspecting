@@ -1,13 +1,16 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.renderers;
 
+import java.util.List;
+
+import net.minecraft.client.gui.GuiScreen;
+
 import com.sinthoras.visualprospecting.integration.model.layers.WaypointProviderManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 import com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps.InteractableRenderStep;
 import com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps.RenderStep;
-import java.util.List;
-import net.minecraft.client.gui.GuiScreen;
 
 public abstract class InteractableLayerRenderer extends LayerRenderer {
+
     private double mouseX;
     private double mouseY;
     protected WaypointProviderManager manager;

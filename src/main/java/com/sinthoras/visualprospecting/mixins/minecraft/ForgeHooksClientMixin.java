@@ -1,6 +1,7 @@
 package com.sinthoras.visualprospecting.mixins.minecraft;
 
 import net.minecraftforge.client.ForgeHooksClient;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

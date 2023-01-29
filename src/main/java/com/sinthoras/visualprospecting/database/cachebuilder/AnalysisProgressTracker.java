@@ -1,11 +1,13 @@
 package com.sinthoras.visualprospecting.database.cachebuilder;
 
+import java.io.File;
+import java.text.DecimalFormat;
+
+import net.minecraft.server.MinecraftServer;
+
 import com.sinthoras.visualprospecting.Config;
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
-import java.io.File;
-import java.text.DecimalFormat;
-import net.minecraft.server.MinecraftServer;
 
 public class AnalysisProgressTracker {
 
@@ -59,9 +61,12 @@ public class AnalysisProgressTracker {
         long timestamp = System.currentTimeMillis();
         if (timestamp - (Config.cacheGenerationLogUpdateMinTime * 1000) > lastLogUpdate) {
             lastLogUpdate = timestamp;
-            final String message = "Caching GT ore generation meta data - Dimension ("
-                    + (dimensionsProcessed + 1) + "/" + numberOfDimensions + ")  "
-                    + (numberOfRegionFiles == 0 ? 0 : ((regionFilesProcessed * 100) / numberOfRegionFiles)) + "%";
+            final String message = "Caching GT ore generation meta data - Dimension (" + (dimensionsProcessed + 1)
+                    + "/"
+                    + numberOfDimensions
+                    + ")  "
+                    + (numberOfRegionFiles == 0 ? 0 : ((regionFilesProcessed * 100) / numberOfRegionFiles))
+                    + "%";
             VP.info(message);
             if (Utils.isLogicalClient()) {
                 MinecraftServer.getServer().userMessage = message + "%"; // Escape % for String.format
@@ -75,7 +80,8 @@ public class AnalysisProgressTracker {
         format.setMinimumFractionDigits(1);
         format.setMaximumFractionDigits(1);
         final String message = "Parsing complete! Thank you for your patience.  - Duration: "
-                + format.format(elapsedTimeMS / 1000) + "sec";
+                + format.format(elapsedTimeMS / 1000)
+                + "sec";
         VP.info(message);
         if (Utils.isLogicalClient()) {
             MinecraftServer.getServer().userMessage = message;

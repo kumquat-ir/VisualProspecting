@@ -1,12 +1,13 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap.renderers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.sinthoras.visualprospecting.integration.model.SupportedMods;
 import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 import com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps.RenderStep;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public abstract class LayerRenderer extends com.sinthoras.visualprospecting.integration.model.layers.LayerRenderer {
 
@@ -33,7 +34,7 @@ public abstract class LayerRenderer extends com.sinthoras.visualprospecting.inte
 
     @Override
     public void updateVisibleElements(List<? extends ILocationProvider> visibleElements) {
-        //noinspection unchecked
+        // noinspection unchecked
         renderSteps = (List<RenderStep>) generateRenderSteps(visibleElements);
         renderStepsReversed = new ArrayList<>(renderSteps);
         Collections.reverse(renderStepsReversed);
