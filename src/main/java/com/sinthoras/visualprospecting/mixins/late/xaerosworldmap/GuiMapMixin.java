@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.xaerosworldmap;
+package com.sinthoras.visualprospecting.mixins.late.xaerosworldmap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -32,6 +32,7 @@ import com.sinthoras.visualprospecting.integration.xaeroworldmap.renderers.Inter
 import com.sinthoras.visualprospecting.integration.xaeroworldmap.renderers.LayerRenderer;
 import com.sinthoras.visualprospecting.integration.xaeroworldmap.rendersteps.RenderStep;
 
+@SuppressWarnings({ "MixinAnnotationTarget", "UnresolvedMixinReference", "UnusedMixin" })
 @Mixin(value = GuiMap.class, remap = false)
 public abstract class GuiMapMixin extends ScreenBase {
 

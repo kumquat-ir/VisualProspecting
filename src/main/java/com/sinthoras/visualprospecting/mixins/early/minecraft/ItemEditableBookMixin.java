@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.minecraft;
+package com.sinthoras.visualprospecting.mixins.early.minecraft;
 
 import java.util.List;
 

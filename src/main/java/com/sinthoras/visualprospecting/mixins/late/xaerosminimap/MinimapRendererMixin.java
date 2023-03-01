@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.xaerosminimap;
+package com.sinthoras.visualprospecting.mixins.late.xaerosminimap;
 
 import java.util.ArrayList;
 

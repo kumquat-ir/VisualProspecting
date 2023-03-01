@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.gregtech;
+package com.sinthoras.visualprospecting.mixins.late.gregtech;
 
 import java.util.Random;
 

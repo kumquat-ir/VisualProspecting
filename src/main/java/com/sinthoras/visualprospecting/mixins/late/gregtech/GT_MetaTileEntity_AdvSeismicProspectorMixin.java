@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.gregtech;
+package com.sinthoras.visualprospecting.mixins.late.gregtech;
 
 import static gregtech.api.util.GT_Utility.ItemNBT.getNBT;
 import static gregtech.api.util.GT_Utility.ItemNBT.setNBT;

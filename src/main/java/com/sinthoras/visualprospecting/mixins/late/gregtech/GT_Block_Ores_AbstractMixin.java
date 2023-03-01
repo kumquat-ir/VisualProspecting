@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.gregtech;
+package com.sinthoras.visualprospecting.mixins.late.gregtech;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

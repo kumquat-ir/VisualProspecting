@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.bartworks;
+package com.sinthoras.visualprospecting.mixins.late.galacticgreg;
 
 import java.util.Random;
 
@@ -9,22 +9,23 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import com.github.bartimaeusnek.bartworks.system.oregen.BW_OreLayer;
-import com.github.bartimaeusnek.bartworks.system.oregen.BW_WordGenerator;
+import bloodasp.galacticgreg.GT_Worldgenerator_Space;
+
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.database.ServerCache;
+import gregtech.api.world.GT_Worldgen;
 
-@Mixin(BW_WordGenerator.WorldGenContainer.class)
-public class WorldGenContainerMixin {
+@Mixin(GT_Worldgenerator_Space.class)
+public class GT_Worldgenerator_SpaceMixin {
 
     @Redirect(
-            method = "run",
+            method = "Generate_OreVeins",
             at = @At(
                     value = "INVOKE",
-                    target = "Lcom/github/bartimaeusnek/bartworks/system/oregen/BW_OreLayer;executeWorldgen(Lnet/minecraft/world/World;Ljava/util/Random;Ljava/lang/String;IIILnet/minecraft/world/chunk/IChunkProvider;Lnet/minecraft/world/chunk/IChunkProvider;)Z"),
+                    target = "Lgregtech/api/world/GT_Worldgen;executeWorldgen(Lnet/minecraft/world/World;Ljava/util/Random;Ljava/lang/String;IIILnet/minecraft/world/chunk/IChunkProvider;Lnet/minecraft/world/chunk/IChunkProvider;)Z"),
             remap = false,
             require = 1)
-    private boolean onOreVeinGenerationAttempt(BW_OreLayer worldGen, World world, Random random, String biome,
+    private boolean onOreVeinGenerated(GT_Worldgen worldGen, World world, Random random, String biome,
             int dimensionType, int blockX, int blockZ, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
         final boolean oreVeinPlaced = worldGen.executeWorldgen(
                 world,

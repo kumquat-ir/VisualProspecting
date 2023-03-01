@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.tcnodetracker;
+package com.sinthoras.visualprospecting.mixins.late.tcnodetracker;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;

@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.journeymap;
+package com.sinthoras.visualprospecting.mixins.late.journeymap;
 
 import java.lang.reflect.Field;
 

@@ -1,4 +1,4 @@
-package com.sinthoras.visualprospecting.mixins.journeymap;
+package com.sinthoras.visualprospecting.mixins.late.journeymap;
 
 import journeymap.client.ui.UIManager;
 import journeymap.client.ui.component.Button;
