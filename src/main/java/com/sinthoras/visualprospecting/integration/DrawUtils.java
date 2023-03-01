@@ -175,4 +175,8 @@ public class DrawUtils {
         return new float[] { (float) (rgb >> 16 & 255) / 255.0F, (float) (rgb >> 8 & 255) / 255.0F,
                 (float) (rgb & 255) / 255.0F };
     }
+
+    public static int intColor(short[] rgb) {
+        return ((rgb[0] & 0x00FF) << 16) + ((rgb[1] & 0x00FF) << 8) + (rgb[2] & 0x00FF);
+    }
 }

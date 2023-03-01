@@ -11,6 +11,8 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
+import com.impact.common.oregeneration.OreVein;
+import com.impact.core.Impact_API;
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.database.veintypes.VeinType;
@@ -26,8 +28,10 @@ public class DimensionCache {
 
     private final Map<ChunkCoordIntPair, OreVeinPosition> oreChunks = new HashMap<>();
     private final Map<ChunkCoordIntPair, UndergroundFluidPosition> undergroundFluids = new HashMap<>();
+    private final Map<ChunkCoordIntPair, ImpactOrePosition> impactOres = new HashMap<>();
     private final Set<ChunkCoordIntPair> changedOrNewOreChunks = new HashSet<>();
     private final Set<ChunkCoordIntPair> changedOrNewUndergroundFluids = new HashSet<>();
+    private final Set<ChunkCoordIntPair> changedOrNewImpactOres = new HashSet<>();
     public final int dimensionId;
 
     public DimensionCache(int dimensionId) {
@@ -84,7 +88,35 @@ public class DimensionCache {
         return null;
     }
 
-    public void loadCache(ByteBuffer oreChunksBuffer, ByteBuffer undergroundFluidsBuffer) {
+    public ByteBuffer saveImpactOres() {
+        if (!changedOrNewImpactOres.isEmpty()) {
+            final ByteBuffer buffer = ByteBuffer.allocate(
+                    changedOrNewImpactOres.size()
+                            * (Integer.BYTES * (4 + 2 * VP.impactOreSizeChunkX * VP.impactOreSizeChunkZ)));
+            changedOrNewImpactOres.stream().map(impactOres::get).forEach(impactOrePosition -> {
+                buffer.putInt(impactOrePosition.chunkX);
+                buffer.putInt(impactOrePosition.chunkZ);
+                buffer.putInt(impactOrePosition.veinLayer0 != null ? impactOrePosition.veinLayer0.idVein : -1);
+                buffer.putInt(impactOrePosition.veinLayer1 != null ? impactOrePosition.veinLayer1.idVein : -1);
+                int[][] chunkArr0 = impactOrePosition.chunksLayer0 != null ? impactOrePosition.chunksLayer0
+                        : new int[VP.impactOreSizeChunkX][VP.impactOreSizeChunkZ];
+                int[][] chunkArr1 = impactOrePosition.chunksLayer1 != null ? impactOrePosition.chunksLayer1
+                        : new int[VP.impactOreSizeChunkX][VP.impactOreSizeChunkZ];
+                for (int offsetChunkX = 0; offsetChunkX < VP.impactOreSizeChunkX; offsetChunkX++) {
+                    for (int offsetChunkZ = 0; offsetChunkZ < VP.impactOreSizeChunkZ; offsetChunkZ++) {
+                        buffer.putInt(chunkArr0[offsetChunkX][offsetChunkZ]);
+                        buffer.putInt(chunkArr1[offsetChunkX][offsetChunkZ]);
+                    }
+                }
+            });
+            changedOrNewImpactOres.clear();
+            buffer.flip();
+            return buffer;
+        }
+        return null;
+    }
+
+    public void loadCache(ByteBuffer oreChunksBuffer, ByteBuffer undergroundFluidsBuffer, ByteBuffer impactOresBuffer) {
         if (oreChunksBuffer != null) {
             while (oreChunksBuffer.remaining() >= Integer.BYTES * 2 + Short.BYTES) {
                 final int chunkX = oreChunksBuffer.getInt();
@@ -123,6 +155,26 @@ public class DimensionCache {
                             getUndergroundFluidKey(chunkX, chunkZ),
                             new UndergroundFluidPosition(dimensionId, chunkX, chunkZ, fluid, chunks));
                 }
+            }
+        }
+        if (impactOresBuffer != null) {
+            while (impactOresBuffer.remaining()
+                    >= Integer.BYTES * (4 + 2 * VP.impactOreSizeChunkX * VP.impactOreSizeChunkZ)) {
+                final int chunkX = impactOresBuffer.getInt();
+                final int chunkZ = impactOresBuffer.getInt();
+                final OreVein veinId0 = Impact_API.registerVeins.get(impactOresBuffer.getInt());
+                final OreVein veinId1 = Impact_API.registerVeins.get(impactOresBuffer.getInt());
+                final int[][] chunks0 = new int[VP.impactOreSizeChunkX][VP.impactOreSizeChunkZ];
+                final int[][] chunks1 = new int[VP.impactOreSizeChunkX][VP.impactOreSizeChunkZ];
+                for (int offsetChunkX = 0; offsetChunkX < VP.impactOreSizeChunkX; offsetChunkX++) {
+                    for (int offsetChunkZ = 0; offsetChunkZ < VP.impactOreSizeChunkZ; offsetChunkZ++) {
+                        chunks0[offsetChunkX][offsetChunkZ] = impactOresBuffer.getInt();
+                        chunks1[offsetChunkX][offsetChunkZ] = impactOresBuffer.getInt();
+                    }
+                }
+                impactOres.put(
+                        getImpactOreKey(chunkX, chunkZ),
+                        new ImpactOrePosition(dimensionId, chunkX, chunkZ, veinId0, veinId1, chunks0, chunks1));
             }
         }
     }
@@ -186,12 +238,41 @@ public class DimensionCache {
                 .getOrDefault(key, UndergroundFluidPosition.getNotProspected(dimensionId, chunkX, chunkZ));
     }
 
+    private ChunkCoordIntPair getImpactOreKey(int chunkX, int chunkZ) {
+        return new ChunkCoordIntPair(
+                Utils.mapToCornerImpactOreChunkCoord(chunkX),
+                Utils.mapToCornerImpactOreChunkCoord(chunkZ));
+    }
+
+    public UpdateResult putImpactOre(final ImpactOrePosition impactOre) {
+        final ChunkCoordIntPair key = getImpactOreKey(impactOre.chunkX, impactOre.chunkZ);
+        if (!impactOres.containsKey(key)) {
+            changedOrNewImpactOres.add(key);
+            impactOres.put(key, impactOre);
+            return UpdateResult.New;
+        } else if (!impactOres.get(key).equals(impactOre)) {
+            changedOrNewImpactOres.add(key);
+            impactOres.put(key, impactOre);
+            return UpdateResult.Updated;
+        }
+        return UpdateResult.AlreadyKnown;
+    }
+
+    public ImpactOrePosition getImpactOre(int chunkX, int chunkZ) {
+        final ChunkCoordIntPair key = getImpactOreKey(chunkX, chunkZ);
+        return impactOres.getOrDefault(key, ImpactOrePosition.getNotProspected(dimensionId, chunkX, chunkZ));
+    }
+
     public Collection<OreVeinPosition> getAllOreVeins() {
         return oreChunks.values();
     }
 
     public Collection<UndergroundFluidPosition> getAllUndergroundFluids() {
         return undergroundFluids.values();
+    }
+
+    public Collection<ImpactOrePosition> getAllImpactOres() {
+        return impactOres.values();
     }
 
     /**

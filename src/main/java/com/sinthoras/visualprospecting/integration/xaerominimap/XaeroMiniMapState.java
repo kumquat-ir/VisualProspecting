@@ -1,5 +1,6 @@
 package com.sinthoras.visualprospecting.integration.xaerominimap;
 
+import static com.sinthoras.visualprospecting.Utils.isImpact;
 import static com.sinthoras.visualprospecting.Utils.isTCNodeTrackerInstalled;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ public class XaeroMiniMapState {
     public final List<WaypointManager> waypointManagers = new ArrayList<>();
 
     public XaeroMiniMapState() {
-        waypointManagers.add(OreVeinWaypointManager.instance);
+        if (!isImpact()) {
+            waypointManagers.add(OreVeinWaypointManager.instance);
+        }
 
         if (isTCNodeTrackerInstalled()) {
             waypointManagers.add(ThaumcraftNodeWaypointManager.instance);

@@ -29,8 +29,17 @@ public class MapState {
         layers.add(UndergroundFluidLayerManager.instance);
         layers.add(UndergroundFluidChunkLayerManager.instance);
 
-        buttons.add(OreVeinButtonManager.instance);
-        layers.add(OreVeinLayerManager.instance);
+        if (!isImpact()) {
+            buttons.add(OreVeinButtonManager.instance);
+            layers.add(OreVeinLayerManager.instance);
+        } else {
+            buttons.add(ImpactLayer1ButtonManager.instance);
+            buttons.add(ImpactLayer0ButtonManager.instance);
+            layers.add(ImpactOreLayer1Manager.instance);
+            layers.add(ImpactOreChunkLayer1Manager.instance);
+            layers.add(ImpactOreLayer0Manager.instance);
+            layers.add(ImpactOreChunkLayer0Manager.instance);
+        }
 
         if (Config.enableDeveloperOverlays) {
             buttons.add(DirtyChunkButtonManager.instance);
