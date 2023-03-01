@@ -22,7 +22,7 @@ public class WaypointManagerMixin {
             require = 1,
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void onToggleAllWaypoints(boolean enable, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-        if (enable == false) {
+        if (!enable) {
             for (LayerManager layer : MapState.instance.layers) {
                 if (layer instanceof WaypointProviderManager) {
                     ((WaypointProviderManager) layer).clearActiveWaypoint();

@@ -40,7 +40,7 @@ public class WorldGenContainerMixin {
                 aSeedZ,
                 aChunkGenerator,
                 aChunkProvider);
-        if (result == GT_Worldgen_GT_Ore_Layer.ORE_PLACED && instance.mWorldGenName.equals("NoOresInVein") == false) {
+        if (result == GT_Worldgen_GT_Ore_Layer.ORE_PLACED && !instance.mWorldGenName.equals("NoOresInVein")) {
             ServerCache.instance.notifyOreVeinGeneration(
                     aWorld.provider.dimensionId,
                     Utils.coordBlockToChunk(aSeedX),

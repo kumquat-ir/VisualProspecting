@@ -128,13 +128,12 @@ public class ClientCache extends WorldCache {
             final TileEntity tTileEntity = world.getTileEntity(blockX, blockY, blockZ);
             if (tTileEntity instanceof GT_TileEntity_Ores) {
                 final short oreMetaData = ((GT_TileEntity_Ores) tTileEntity).mMetaData;
-                if (Utils.isSmallOreId(oreMetaData) == false && oreMetaData != 0) {
+                if (!Utils.isSmallOreId(oreMetaData) && oreMetaData != 0) {
                     final int chunkX = Utils.coordBlockToChunk(blockX);
                     final int chunkZ = Utils.coordBlockToChunk(blockZ);
                     final OreVeinPosition oreVeinPosition = getOreVein(entityPlayer.dimension, chunkX, chunkZ);
                     final short materialId = Utils.oreIdToMaterialId(oreMetaData);
-                    if (oreVeinPosition.veinType.containsOre(materialId) == false
-                            && ProspectingRequest.canSendRequest()) {
+                    if (!oreVeinPosition.veinType.containsOre(materialId) && ProspectingRequest.canSendRequest()) {
                         VP.network.sendToServer(
                                 new ProspectingRequest(entityPlayer.dimension, blockX, blockY, blockZ, materialId));
                     }

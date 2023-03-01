@@ -22,7 +22,7 @@ public class GregTechOre {
         if (tagId != null && tagId.getText().equals("GT_TileEntity_Ores")
                 && tagBlockY != null
                 && tagMeta != null
-                && isSmallOreId(tagMeta.data) == false) {
+                && !isSmallOreId(tagMeta.data)) {
             metaData = oreIdToMaterialId(tagMeta.data);
             isValidGTOre = true;
             blockY = tagBlockY.data;

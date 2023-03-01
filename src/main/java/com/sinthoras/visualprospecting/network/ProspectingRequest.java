@@ -95,8 +95,7 @@ public class ProspectingRequest implements IMessage {
                     final TileEntity tileEntity = world.getTileEntity(message.blockX, message.blockY, message.blockZ);
                     if (tileEntity instanceof GT_TileEntity_Ores) {
                         final short metaData = ((GT_TileEntity_Ores) tileEntity).mMetaData;
-                        if (isSmallOreId(metaData) == false
-                                && oreIdToMaterialId(metaData) == message.foundOreMetaData) {
+                        if (!isSmallOreId(metaData) && oreIdToMaterialId(metaData) == message.foundOreMetaData) {
                             lastRequestPerPlayer.put(uuid, timestamp);
 
                             // Prioritise center vein

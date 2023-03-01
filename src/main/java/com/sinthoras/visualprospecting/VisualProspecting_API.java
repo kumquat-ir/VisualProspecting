@@ -121,7 +121,7 @@ public class VisualProspecting_API {
         public static void setOreVeinDepleted(int dimensionId, int blockX, int blockZ) {
             final OreVeinPosition oreVeinPosition = ClientCache.instance
                     .getOreVein(dimensionId, Utils.coordBlockToChunk(blockX), Utils.coordBlockToChunk(blockZ));
-            if (oreVeinPosition.isDepleted() == false) {
+            if (!oreVeinPosition.isDepleted()) {
                 oreVeinPosition.toggleDepleted();
             }
             ClientCache.instance.putOreVeins(Collections.singletonList(oreVeinPosition));

@@ -67,7 +67,7 @@ public abstract class GT_MetaTileEntity_ScannerMixin extends GT_MetaTileEntity_B
 
             final List<OreVeinPosition> foundOreVeins = ServerCache.instance
                     .prospectOreBlockRadius(dimensionId, blockX, blockZ, blockRadius);
-            if (foundOreVeins.isEmpty() == false) {
+            if (!foundOreVeins.isEmpty()) {
                 final int pageSize = 7;
                 final int numberOfPages = (foundOreVeins.size() + pageSize) / pageSize; // Equals to
                                                                                         // ceil((foundOreVeins.size())

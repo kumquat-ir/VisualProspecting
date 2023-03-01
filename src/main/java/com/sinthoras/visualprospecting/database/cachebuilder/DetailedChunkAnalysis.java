@@ -33,7 +33,7 @@ public class DetailedChunkAnalysis {
                 if (oresPerY[gtOre.blockY] == null) {
                     oresPerY[gtOre.blockY] = new HashMap<>();
                 }
-                if (oresPerY[gtOre.blockY].containsKey(gtOre.metaData) == false) {
+                if (!oresPerY[gtOre.blockY].containsKey(gtOre.metaData)) {
                     oresPerY[gtOre.blockY].put(gtOre.metaData, 0);
                 }
                 oresPerY[gtOre.blockY].put(gtOre.metaData, oresPerY[gtOre.blockY].get(gtOre.metaData) + 1);
@@ -124,7 +124,7 @@ public class DetailedChunkAnalysis {
 
         final Map<Short, Integer> allOres = new HashMap<>();
         for (Map<Short, Integer> oreLevel : oresPerY) {
-            if (oreLevel != null && oreLevel.isEmpty() == false) {
+            if (oreLevel != null && !oreLevel.isEmpty()) {
                 oreLevel.forEach((metaData, numberOfBlocks) -> allOres.merge(metaData, numberOfBlocks, Integer::sum));
             }
         }
@@ -156,7 +156,7 @@ public class DetailedChunkAnalysis {
     private boolean isOreVeinGeneratedAtHeight(VeinType veinType, int blockY) {
         for (int layer = 0; layer < VeinType.veinHeight; layer++) {
             if (oresPerY[blockY + layer] == null
-                    || oresPerY[blockY + layer].keySet().containsAll(veinType.getOresAtLayer(layer)) == false) {
+                    || !oresPerY[blockY + layer].keySet().containsAll(veinType.getOresAtLayer(layer))) {
                 return false;
             }
         }

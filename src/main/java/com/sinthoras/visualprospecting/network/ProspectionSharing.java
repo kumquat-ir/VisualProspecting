@@ -147,7 +147,7 @@ public class ProspectionSharing implements IMessage {
                 oreVeins.put(player, new ArrayList<>());
                 undergroundFluids.put(player, new ArrayList<>());
             }
-            if (oreVeins.containsKey(player) == false || undergroundFluids.containsKey(player) == false) {
+            if (!oreVeins.containsKey(player) || !undergroundFluids.containsKey(player)) {
                 return null;
             }
             oreVeins.get(player).addAll(message.oreVeins);

@@ -35,7 +35,7 @@ public class DimensionCache {
     }
 
     public ByteBuffer saveOreChunks() {
-        if (changedOrNewOreChunks.isEmpty() == false) {
+        if (!changedOrNewOreChunks.isEmpty()) {
             final ByteBuffer byteBuffer = ByteBuffer
                     .allocate(changedOrNewOreChunks.size() * (2 * Integer.BYTES + Short.BYTES));
             changedOrNewOreChunks.stream().map(oreChunks::get).forEach(oreVeinPosition -> {
@@ -133,7 +133,7 @@ public class DimensionCache {
 
     public UpdateResult putOreVein(final OreVeinPosition oreVeinPosition) {
         final ChunkCoordIntPair key = getOreVeinKey(oreVeinPosition.chunkX, oreVeinPosition.chunkZ);
-        if (oreChunks.containsKey(key) == false) {
+        if (!oreChunks.containsKey(key)) {
             oreChunks.put(key, oreVeinPosition);
             changedOrNewOreChunks.add(key);
             return UpdateResult.New;
@@ -168,11 +168,11 @@ public class DimensionCache {
 
     public UpdateResult putUndergroundFluid(final UndergroundFluidPosition undergroundFluid) {
         final ChunkCoordIntPair key = getUndergroundFluidKey(undergroundFluid.chunkX, undergroundFluid.chunkZ);
-        if (undergroundFluids.containsKey(key) == false) {
+        if (!undergroundFluids.containsKey(key)) {
             changedOrNewUndergroundFluids.add(key);
             undergroundFluids.put(key, undergroundFluid);
             return UpdateResult.New;
-        } else if (undergroundFluids.get(key).equals(undergroundFluid) == false) {
+        } else if (!undergroundFluids.get(key).equals(undergroundFluid)) {
             changedOrNewUndergroundFluids.add(key);
             undergroundFluids.put(key, undergroundFluid);
             return UpdateResult.Updated;

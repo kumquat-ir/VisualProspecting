@@ -29,7 +29,7 @@ public class HooksEventBus {
 
     @SubscribeEvent
     public void onEvent(EntityJoinWorldEvent event) {
-        if (event.world.isRemote == false) {
+        if (!event.world.isRemote) {
             if (event.entity instanceof EntityPlayerMP) {
                 VP.network.sendTo(new WorldIdNotification(WorldIdHandler.getWorldId()), (EntityPlayerMP) event.entity);
             } else if (event.entity instanceof EntityPlayer) {

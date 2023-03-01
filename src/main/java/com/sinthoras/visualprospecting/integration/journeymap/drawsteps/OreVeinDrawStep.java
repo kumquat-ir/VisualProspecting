@@ -44,7 +44,7 @@ public class OreVeinDrawStep implements ClickableDrawStep {
             tooltip.add(oreVeinLocation.getActiveWaypointHint());
         }
         tooltip.add(oreVeinLocation.getName());
-        if (oreVeinLocation.isDepleted() == false) {
+        if (!oreVeinLocation.isDepleted()) {
             tooltip.addAll(oreVeinLocation.getMaterialNames());
         }
         tooltip.add(oreVeinLocation.getToggleDepletedHint());
@@ -80,7 +80,7 @@ public class OreVeinDrawStep implements ClickableDrawStep {
                 blockAsPixel.getX() + draggedPixelX,
                 blockAsPixel.getY() + draggedPixelY);
 
-        if (gridRenderer.getZoom() >= Config.minZoomLevelForOreLabel && oreVeinLocation.isDepleted() == false) {
+        if (gridRenderer.getZoom() >= Config.minZoomLevelForOreLabel && !oreVeinLocation.isDepleted()) {
             final int fontColor = oreVeinLocation.drawSearchHighlight() ? 0xFFFFFF : 0x7F7F7F;
             DrawUtil.drawLabel(
                     oreVeinLocation.getName(),
@@ -111,7 +111,7 @@ public class OreVeinDrawStep implements ClickableDrawStep {
                 oreVeinLocation.getColor(),
                 255);
 
-        if (oreVeinLocation.drawSearchHighlight() == false || oreVeinLocation.isDepleted()) {
+        if (!oreVeinLocation.drawSearchHighlight() || oreVeinLocation.isDepleted()) {
             DrawUtil.drawRectangle(iconX, iconY, iconSize, iconSize, 0x000000, 150);
             if (oreVeinLocation.isDepleted()) {
                 DrawUtils.drawQuad(depletedTextureLocation, iconX, iconY, iconSize, iconSize, 0xFFFFFF, 255);

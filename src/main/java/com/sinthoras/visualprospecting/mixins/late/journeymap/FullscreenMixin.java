@@ -272,7 +272,7 @@ public abstract class FullscreenMixin extends JmUI {
             final int scaledMouseX = mx * mc.displayWidth / width;
             final int scaledMouseY = my * mc.displayHeight / height;
             final double blockSize = Math.pow(2.0D, gridRenderer.getZoom());
-            if (onMapClicked(mouseButton, scaledMouseX, scaledMouseY, blockSize) == false) {
+            if (!onMapClicked(mouseButton, scaledMouseX, scaledMouseY, blockSize)) {
                 BlockCoordIntPair blockCoord = gridRenderer
                         .getBlockUnderMouse(Mouse.getEventX(), Mouse.getEventY(), mc.displayWidth, mc.displayHeight);
                 layerDelegate.onMouseClicked(

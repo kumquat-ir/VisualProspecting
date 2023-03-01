@@ -29,10 +29,10 @@ public class WaypointManager extends com.sinthoras.visualprospecting.integration
 
     @Override
     public void updateActiveWaypoint(Waypoint waypoint) {
-        if (hasWaypoint() == false || waypoint.blockX != jmWaypoint.getX()
+        if (!hasWaypoint() || waypoint.blockX != jmWaypoint.getX()
                 || waypoint.blockY != jmWaypoint.getY()
                 || waypoint.blockZ != jmWaypoint.getZ()
-                || jmWaypoint.getDimensions().contains(waypoint.dimensionId) == false) {
+                || !jmWaypoint.getDimensions().contains(waypoint.dimensionId)) {
             jmWaypoint = new journeymap.client.model.Waypoint(
                     waypoint.label,
                     waypoint.blockX,

@@ -24,8 +24,7 @@ public class TransferCache {
         final int newEntryBytes = oreVeins.size() * oreVeinPositionSizeInRam
                 + undergroundFluids.size() * UndergroundFluidPosition.BYTES;
 
-        while (getUsedMemory() > (Config.maxTransferCacheSizeMB << 20) - newEntryBytes
-                && timestamp.isEmpty() == false) {
+        while (getUsedMemory() > (Config.maxTransferCacheSizeMB << 20) - newEntryBytes && !timestamp.isEmpty()) {
             String oldestUUID = timestamp.remove();
             sharedOreVeins.remove(oldestUUID);
             sharedUndergroundFluids.remove(oldestUUID);

@@ -123,7 +123,7 @@ public class Utils {
     }
 
     public static ByteBuffer readFileToBuffer(File file) {
-        if (file.exists() == false) {
+        if (!file.exists()) {
             return null;
         }
         try {
@@ -145,7 +145,7 @@ public class Utils {
     }
 
     public static Map<String, Short> readFileToMap(File file) {
-        if (file.exists() == false) {
+        if (!file.exists()) {
             return new HashMap<>();
         }
         try {
@@ -176,7 +176,7 @@ public class Utils {
 
     public static void appendToFile(File file, ByteBuffer byteBuffer) {
         try {
-            if (file.exists() == false) {
+            if (!file.exists()) {
                 file.createNewFile();
             }
             final FileOutputStream outputStream = new FileOutputStream(file, true);
