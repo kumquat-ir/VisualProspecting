@@ -17,10 +17,7 @@ import com.sinthoras.visualprospecting.database.WorldIdHandler;
 import com.sinthoras.visualprospecting.database.cachebuilder.WorldAnalysis;
 import com.sinthoras.visualprospecting.database.veintypes.VeinTypeCaching;
 import com.sinthoras.visualprospecting.item.ProspectorsLog;
-import com.sinthoras.visualprospecting.network.ProspectingNotification;
-import com.sinthoras.visualprospecting.network.ProspectingRequest;
-import com.sinthoras.visualprospecting.network.ProspectionSharing;
-import com.sinthoras.visualprospecting.network.WorldIdNotification;
+import com.sinthoras.visualprospecting.network.*;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -69,6 +66,11 @@ public class HooksShared {
         VP.network.registerMessage(
                 ProspectionSharing.ClientHandler.class,
                 ProspectionSharing.class,
+                networkId++,
+                Side.CLIENT);
+        VP.network.registerMessage(
+                ImpactOreNotification.Handler.class,
+                ImpactOreNotification.class,
                 networkId++,
                 Side.CLIENT);
 

@@ -1,14 +1,12 @@
 package com.sinthoras.visualprospecting.integration.xaeroworldmap;
 
+import static com.sinthoras.visualprospecting.Utils.isImpact;
 import static com.sinthoras.visualprospecting.Utils.isTCNodeTrackerInstalled;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons.LayerButton;
-import com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons.OreVeinButton;
-import com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons.ThaumcraftNodeButton;
-import com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons.UndergroundFluidButton;
+import com.sinthoras.visualprospecting.integration.xaeroworldmap.buttons.*;
 import com.sinthoras.visualprospecting.integration.xaeroworldmap.renderers.*;
 
 public class XaeroWorldMapState {
@@ -19,8 +17,17 @@ public class XaeroWorldMapState {
     public final List<LayerRenderer> renderers = new ArrayList<>();
 
     public XaeroWorldMapState() {
-        buttons.add(OreVeinButton.instance);
-        renderers.add(OreVeinRenderer.instance);
+        if (!isImpact()) {
+            buttons.add(OreVeinButton.instance);
+            renderers.add(OreVeinRenderer.instance);
+        } else {
+            buttons.add(ImpactLayer1Button.instance);
+            buttons.add(ImpactLayer0Button.instance);
+            renderers.add(ImpactChunkLayer1Renderer.instance);
+            renderers.add(ImpactLayer1Renderer.instance);
+            renderers.add(ImpactChunkLayer0Renderer.instance);
+            renderers.add(ImpactLayer0Renderer.instance);
+        }
 
         buttons.add(UndergroundFluidButton.instance);
         renderers.add(UndergroundFluidChunkRenderer.instance);

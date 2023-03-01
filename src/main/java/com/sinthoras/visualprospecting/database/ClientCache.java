@@ -123,6 +123,12 @@ public class ClientCache extends WorldCache {
         }
     }
 
+    public void putImpactOres(List<ImpactOrePosition> impactOres) {
+        for (ImpactOrePosition impactOrePosition : impactOres) {
+            putImpactOres(impactOrePosition);
+        }
+    }
+
     public void onOreInteracted(World world, int blockX, int blockY, int blockZ, EntityPlayer entityPlayer) {
         if (world.isRemote && Config.enableProspecting && Minecraft.getMinecraft().thePlayer == entityPlayer) {
             final TileEntity tTileEntity = world.getTileEntity(blockX, blockY, blockZ);
@@ -145,8 +151,10 @@ public class ClientCache extends WorldCache {
     public void resetPlayerProgression() {
         Utils.deleteDirectoryRecursively(oreVeinCacheDirectory);
         Utils.deleteDirectoryRecursively(undergroundFluidCacheDirectory);
+        Utils.deleteDirectoryRecursively(impactOreCacheDirectory);
         oreVeinCacheDirectory.mkdirs();
         undergroundFluidCacheDirectory.mkdirs();
+        impactOreCacheDirectory.mkdirs();
         reset();
     }
 
@@ -164,5 +172,13 @@ public class ClientCache extends WorldCache {
             allUndergroundFluids.addAll(dimension.getAllUndergroundFluids());
         }
         return allUndergroundFluids;
+    }
+
+    public List<ImpactOrePosition> getAllImpactOres() {
+        List<ImpactOrePosition> allImpactOres = new ArrayList<>();
+        for (DimensionCache dimension : dimensions.values()) {
+            allImpactOres.addAll(dimension.getAllImpactOres());
+        }
+        return allImpactOres;
     }
 }

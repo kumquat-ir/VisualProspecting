@@ -1,5 +1,6 @@
 package com.sinthoras.visualprospecting.integration.journeymap;
 
+import static com.sinthoras.visualprospecting.Utils.isImpact;
 import static com.sinthoras.visualprospecting.Utils.isTCNodeTrackerInstalled;
 import static com.sinthoras.visualprospecting.integration.journeymap.Reflection.getJourneyMapGridRenderer;
 
@@ -34,9 +35,18 @@ public class JourneyMapState {
         renderers.add(UndergroundFluidRenderer.instance);
         renderers.add(UndergroundFluidChunkRenderer.instance);
 
-        buttons.add(OreVeinButton.instance);
-        renderers.add(OreVeinRenderer.instance);
-        waypointManagers.add(OreVeinWaypointManager.instance);
+        if (!isImpact()) {
+            buttons.add(OreVeinButton.instance);
+            renderers.add(OreVeinRenderer.instance);
+            waypointManagers.add(OreVeinWaypointManager.instance);
+        } else {
+            buttons.add(ImpactLayer1Button.instance);
+            buttons.add(ImpactLayer0Button.instance);
+            renderers.add(ImpactChunkLayer1Renderer.instance);
+            renderers.add(ImpactLayer1Renderer.instance);
+            renderers.add(ImpactChunkLayer0Renderer.instance);
+            renderers.add(ImpactLayer0Renderer.instance);
+        }
 
         if (Config.enableDeveloperOverlays) {
             buttons.add(DirtyChunkButton.instance);

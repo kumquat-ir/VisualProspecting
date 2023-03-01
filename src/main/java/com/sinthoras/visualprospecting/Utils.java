@@ -50,6 +50,10 @@ public class Utils {
         return Loader.isModLoaded("XaeroMinimap");
     }
 
+    public static boolean isImpact() {
+        return Loader.isModLoaded("impact");
+    }
+
     public static boolean isVoxelMapInstalled() {
         try {
             // If a LiteLoader mod is present cannot be checked by calling Loader#isModLoaded.
@@ -85,6 +89,10 @@ public class Utils {
         return chunkCoord & 0xFFFFFFF8;
     }
 
+    public static int mapToCornerImpactOreChunkCoord(final int chunkCoord) {
+        return chunkCoord & 0xFFFFFFFC;
+    }
+
     public static double journeyMapScaleToLinear(final int jzoom) {
         return Math.pow(2, jzoom);
     }
@@ -99,6 +107,17 @@ public class Utils {
 
     public static boolean isLogicalClient() {
         return VPMod.proxy instanceof HooksClient;
+    }
+
+    public static int[][] deeperCopy(int[][] src) {
+        if (src.length == 0) {
+            return src.clone();
+        }
+        int[][] dest = new int[src.length][src[0].length];
+        for (int i = 0; i < dest.length; i++) {
+            dest[i] = src[i].clone();
+        }
+        return dest;
     }
 
     public static File getMinecraftDirectory() {

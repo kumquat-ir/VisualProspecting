@@ -17,7 +17,9 @@ public enum TargetedMod {
     XAEROMINIMAP("Xaero's Minimap", "xaero.common.core.XaeroMinimapPlugin", "XaeroMinimap"),
     TCNODETRACKER("TCNodeTracker", null, "tcnodetracker"),
     BARTWORKS("Bartworks", null, "bartworks"),
-    GALACTICGREG("GalacticGreg", null, "galacticgreg");
+    GALACTICGREG("GalacticGreg", null, "galacticgreg"),
+    IMPACT_CORE("Impact Core", null, "impact"),
+    DETRAV_SCANNER("Detrav Scanner", null, "detravscannermod");
 
     public final String modName;
     /** Class that implements the IFMLLoadingPlugin interface */

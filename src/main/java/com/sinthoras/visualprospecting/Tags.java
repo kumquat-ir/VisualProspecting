@@ -15,6 +15,7 @@ public class Tags {
     public static final String SERVER_DIR = VISUALPROSPECTING_DIR + "server/";
     public static final String UNDERGROUNDFLUID_DIR = "fluids/";
     public static final String OREVEIN_DIR = "ore/";
+    public static final String IMPACTORE_DIR = "impactore/";
     public static final String worldId = "wId";
     public static final String ORE_MIX_NONE_NAME = "ore.mix.none";
     public static final String BOOK_TITLE = "title";

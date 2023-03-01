@@ -42,7 +42,11 @@ public enum Mixin {
     // used to enable the stencil buffer for on-minimap rendering
     ForgeHooksClientMixin("minecraft.ForgeHooksClientMixin", Side.CLIENT, Phase.EARLY, XAEROMINIMAP, XAEROWORLDMAP),
 
-    ItemEditableBookMixin("minecraft.ItemEditableBookMixin", Phase.EARLY, VANILLA);
+    ItemEditableBookMixin("minecraft.ItemEditableBookMixin", Phase.EARLY, VANILLA),
+
+    // GTNH's version of DetravScanner has native VP integration, IMPACT's does not
+    ProspectingPacketMixin("detravscanner.ProspectingPacketMixin", Phase.LATE, DETRAV_SCANNER, IMPACT_CORE),
+    Behaviour_OreProbeMixin("impactcore.Behaviour_OreProbeMixin", Phase.LATE, IMPACT_CORE);
 
     public final String mixinClass;
     public final List<TargetedMod> targetedMods;
