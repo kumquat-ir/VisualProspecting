@@ -18,6 +18,7 @@ import com.impact.mods.gregtech.items.tools.behaviour.Behaviour_OreProbe;
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.VP;
 import com.sinthoras.visualprospecting.network.ImpactOreNotification;
+
 import gregtech.api.items.GT_MetaBase_Item;
 
 @Mixin(value = Behaviour_OreProbe.class, remap = false)

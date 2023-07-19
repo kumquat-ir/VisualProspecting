@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import com.sinthoras.visualprospecting.mixins.Mixin;
+
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 public class VPCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
