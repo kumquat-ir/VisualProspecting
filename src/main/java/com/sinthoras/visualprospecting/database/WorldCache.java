@@ -39,12 +39,16 @@ public abstract class WorldCache {
         final Set<Integer> dimensionsIds = new HashSet<>();
         dimensionsIds.addAll(oreVeinDimensionBuffers.keySet());
         dimensionsIds.addAll(undergroundFluidDimensionBuffers.keySet());
+        dimensionsIds.addAll(dimensions.keySet());
         if (dimensionsIds.isEmpty()) {
             return false;
         }
 
         for (int dimensionId : dimensionsIds) {
-            final DimensionCache dimension = new DimensionCache(dimensionId);
+            DimensionCache dimension = dimensions.get(dimensionId);
+            if (dimension == null) {
+                dimension = new DimensionCache(dimensionId);
+            }
             dimension.loadCache(
                     oreVeinDimensionBuffers.get(dimensionId),
                     undergroundFluidDimensionBuffers.get(dimensionId));
